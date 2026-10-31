@@ -1,0 +1,5 @@
+"country","financial_assets_eur_bn","financial_liabilities_eur_bn","issued_equity_and_fund_shares_eur_bn","financial_net_worth_eur_bn","loss_absorption_buffer_eur_bn","debt_pool_eur_bn","fixed_other_obligations_eur_bn","sector_partition","max_sector_hierarchy_gap_eur_bn"
+"DEU",8617.348,8853.16,4718.551,-235.812,4482.739,1129.024,3005.585,"S123+S124+S125_S126_S127+S128+S129",0.00100000000020373
+"FRA",7155.95,7310.252,2880.853,-154.302,2726.551,1375.818,3053.581,"S123+S124+S125_S126_S127+S128+S129",0.00100000000111322
+"ITA",2787.928,2584.032,956.059,203.896,1159.955,592.496,1035.477,"S123+S124+S125_S126_S127+S128_S129",1.13686837721616e-13
+"ESP",1635.499,1607.881,890.234,27.618,917.852,272.33,445.317,"S123+S124+S125_S126_S127+S128_S129",0.000999999999294232

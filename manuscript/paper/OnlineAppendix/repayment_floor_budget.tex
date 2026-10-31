@@ -1,0 +1,189 @@
+\section{Capacity of the repayment-floor guarantee}
+\label{app:repayment-floor-budget}
+
+This argument applies to the bank-clearing system with fixed lending positions. Fix a sovereign
+state $s$. Let $\mathcal B$ denote the bank blocks and $x_{ij}$ creditor bank $i$'s claim on debtor bank $j$. All inequalities between repayment vectors are componentwise.
+For each bank $i$, normalize contractual repayment to one and assume $D_i>0$, $0<\lambda_i^B\leq1$, and nonnegative
+bilateral exposures and receipts from nonbank assets. The guarantee is
+financed outside this block, so its payments do not reduce any bank's other
+resources. Write $L_j^{BB}=\sum_{i\in\mathcal B}x_{ij}$ for debtor $j$'s obligations to bank creditors and $[z]_+=\max\{z,0\}$, applied componentwise to vectors. Retain the preferred repayment floors $\bar R_j(s)$, the greatest original equilibrium, and the compensation benchmark $B_{\mathrm{post}}$ defined in the main text.
+
+\subsection{A sufficient capacity}
+\paragraph{The repayment map without intervention}
+For a candidate repayment vector $\mathbf{R}=(R_i)_{i\in\mathcal B}$, write bank $i$'s asset receipts without support as
+\[
+ A_i^0(\mathbf{R};s)=a_i(s)+\sum_{j\in\mathcal B}x_{ij}R_j,
+ \qquad a_i(s)\geq0.
+\]
+The nonbank component $a_i(s)$ is independent of bank repayments. Let $\mathcal K=[0,1]^{|\mathcal B|}$ and fix a resource cutoff $0<T_i\leq D_i/\lambda_i^B$. The ordinary repayment from resources $A\geq0$ is the function $\phi_i(A)$ defined by
+\[
+ \phi_i(A)=
+ \begin{cases}
+ \lambda_i^B A/D_i,& A<T_i,\\
+ 1,& A\geq T_i.
+ \end{cases}
+ \qquad
+ F_{s,i}(\mathbf{R})=\phi_i\bigl(A_i^0(\mathbf{R};s)\bigr).
+\]
+Here $E_i$ denotes accounting equity and $H_i\leq E_i$ prudential headroom. The model's cutoff is $T_i=\min\{D_i+E_i-H_i,D_i/\lambda_i^B\}$; $H_i=E_i$ gives the accounting-insolvency trigger. The upper bound on $T_i$ ensures that default-branch repayments do not exceed the contractual rate. Banking equilibria without intervention are precisely the fixed points of
+$F_s$ on $\mathcal K$. The map is nondecreasing and maps $\mathcal K$ into
+itself. Write $\operatorname{Fix}(F_s)$ for its fixed-point set. By \citet{Tarski1955}, it has a least fixed point $\underline{\mathbf{R}}(s)$ and a greatest fixed point. No continuity assumption is needed for the budget argument below.
+
+\paragraph{A comparison with an original equilibrium}
+Consider any equilibrium $\mathbf{R}$ under nonnegative transfers $t_i(\mathbf{R};s)$ to
+creditor banks. Its repayments satisfy
+\[
+ R_i=\phi_i\bigl(A_i^0(\mathbf{R};s)+t_i(\mathbf{R};s)\bigr)
+ \geq F_{s,i}(\mathbf{R}).
+\]
+For every $\mathbf{Z}\in[0,\mathbf{R}]$, monotonicity gives $0\leq F_s(\mathbf{Z})\leq F_s(\mathbf{R})\leq \mathbf{R}$. Thus $F_s$ maps the complete lattice $[0,\mathbf{R}]$ into itself. Tarski's theorem supplies an original fixed point in this interval, so the least original fixed point satisfies $\underline{\mathbf{R}}(s)\leq \mathbf{R}$. This order comparison requires no adjustment dynamics and holds even if the policy repayment map is not monotone.
+
+Let the total claims on the repayment-floor guarantee at any repayment
+vector be
+\[
+ H_s(\mathbf{R})=\sum_{j\in\mathcal B}L_j^{BB}[\bar R_j(s)-R_j]_+.
+\]
+Equivalently, the compensation benchmarks in the main text are
+\[
+ C_{B,\max}(s)=\max_{\mathbf{Q}\in\operatorname{Fix}(F_s)}H_s(\mathbf{Q})=H_s\bigl(\underline{\mathbf{R}}(s)\bigr),
+ \qquad B_{\mathrm{post}}=\max_s C_{B,\max}(s).
+\]
+Since $H_s$ is nonincreasing in each repayment, the comparison gives
+\begin{equation}
+ H_s(\mathbf{R})\leq H_s\bigl(\underline{\mathbf{R}}(s)\bigr)=C_{B,\max}(s)\leq B_{\mathrm{post}}.
+ \label{eq:repayment-floor-budget-bound}
+\end{equation}
+Thus the full claims at any equilibrium supported by nonnegative transfers are bounded by the compensation bill at the least original equilibrium. Intermediate original equilibria are not needed to compute this bound.
+
+\paragraph{A complete capped payment rule}
+For a budget $B\geq0$, define the proportional payment fraction
+\[
+ \theta_B(\mathbf{R};s)=
+ \begin{cases}
+ 1,& H_s(\mathbf{R})\leq B,\\
+ B/H_s(\mathbf{R}),& H_s(\mathbf{R})>B.
+ \end{cases}
+\]
+The second case has a strictly positive denominator, including when $B=0$.
+Bank creditors of debtor $j$ receive the effective rate
+\[
+ \widetilde R_j^{(B)}=R_j+\theta_B(\mathbf{R};s)[\bar R_j(s)-R_j]_+.
+\]
+Equivalently, bank $i$ receives the transfer
+\[
+ t_i^{(B)}(\mathbf{R};s)=\theta_B(\mathbf{R};s)
+       \sum_{j\in\mathcal B}x_{ij}[\bar R_j(s)-R_j]_+.
+\]
+A capped equilibrium is a vector $\mathbf{R}\in\mathcal K$ satisfying
+\[
+ R_i=\phi_i\bigl(A_i^0(\mathbf{R};s)+t_i^{(B)}(\mathbf{R};s)\bigr)
+ \quad\text{for every bank }i.
+\]
+Thus creditors anticipate any rationing when valuing their interbank assets. Total expenditure is $\min\{H_s(\mathbf{R}),B\}$. The uncapped guarantee sets the payment fraction to one at every repayment vector.
+
+\begin{proposition}[Sufficient budget]\label{prop:floor-budget}
+Under the assumptions above, for every $B\geq B_{\mathrm{post}}$, the capped
+and uncapped repayment-floor guarantees have the same banking equilibria
+in every sovereign state. Their payments also coincide at those equilibria.
+\end{proposition}
+\begin{proof}
+At a capped equilibrium, nonnegative transfers imply
+\eqref{eq:repayment-floor-budget-bound}. Claims therefore fit within the
+budget, so $\theta_B(\mathbf{R};s)=1$. The repayment equations coincide with those
+of the uncapped guarantee. Conversely, transfers at any uncapped equilibrium are
+nonnegative, so the same bound implies $H_s(\mathbf{R})\leq B$. The capped rule then
+pays all claims in full and supports that equilibrium with identical
+payments. This proves equality of the equilibrium sets.
+\end{proof}
+
+The argument extends to any nonnegative allocation rule that pays all claims
+in full whenever $H_s(\mathbf{R})\leq B$; proportional rationing merely specifies the
+policy when claims exceed the cap. The cap may ration claims away from
+equilibrium. The proposition establishes that it never rations claims at an
+equilibrium when $B\geq B_{\mathrm{post}}$. Combined with the main-paper implementation proposition, this capacity bound gives unique implementation of the greatest-equilibrium target. Financing that withdraws resources from banks is outside the proposition.
+
+\subsection{The critical capacity under proportional rationing}
+Fix $s$ and write $\mathbf{Q}=\bar{\mathbf{R}}(s)$, $\mathbf{h}(\mathbf{R})=(\mathbf{Q}-\mathbf{R})_+$ and $H(\mathbf{R})=H_s(\mathbf{R})$. Let
+\[
+ G_B(\mathbf{R})=F_s(\mathbf{R}+\theta_B(\mathbf{R};s)\mathbf{h}(\mathbf{R})),\qquad
+ G^\theta(\mathbf{R})=F_s(\mathbf{R}+\theta \mathbf{h}(\mathbf{R})).
+\]
+Define $\Gamma_s=\{(\theta,\mathbf{R}):0\leq\theta<1,\ \mathbf{R}\in\mathcal K,\ \mathbf{R}=G^\theta(\mathbf{R}),\ H(\mathbf{R})>0\}$ and
+\[
+ B_s^\dagger=\sup_{(\theta,\mathbf{R})\in\Gamma_s}\theta H(\mathbf{R}),
+ \qquad B_s^\dagger=0\text{ if }\Gamma_s=\varnothing.
+\]
+The condition $H(\mathbf{R})>0$ excludes the target and zero-claim vectors, for which the policy sets $\theta_B=1$.
+
+\begin{proposition}[Critical capacity]\label{prop:critical-capacity-appendix}
+The target $\mathbf{Q}$ is the greatest fixed point of $G_B$ for every $B\geq0$. A nonpreferred capped equilibrium exists at capacity $B$ exactly when $B=\theta H(\mathbf{R})$ for some $(\theta,\mathbf{R})\in\Gamma_s$. Capacities admitting such an equilibrium form a downward-closed set with supremum $B_s^\dagger$. Thus all $B>B_s^\dagger$ implement $\mathbf{Q}$ uniquely, and all $0\leq B<B_s^\dagger$ admit another equilibrium. Equality implements uniquely precisely when no pair in $\Gamma_s$ attains the supremum.
+\end{proposition}
+\begin{proof}
+For fixed $\theta\in[0,1]$, each effective receipt $R_j+\theta[Q_j-R_j]_+$ is nondecreasing in both $R_j$ and $\theta$. Since $H$ is nonincreasing in $\mathbf{R}$, the paid fraction $\theta_B$ is nondecreasing in $\mathbf{R}$ and in $B$. Thus $G_B$ is a nondecreasing self-map of $\mathcal K$ and increases with $B$. In particular, $H(\mathbf{Q})=0$ implies $G_B(\mathbf{Q})=\mathbf{Q}$.
+
+The fully honoured map $G^1(\mathbf{R})=F_s(\mathbf{R}\vee\mathbf{Q})$ has the unique fixed point $\mathbf{Q}$ by the main-paper implementation proposition. Any fixed point $\mathbf{R}$ of $G_B$ or $G^\theta$ satisfies $\mathbf{R}\leq G^1(\mathbf{R})$. Monotonicity therefore makes $G^1$ a self-map of the interval $[\mathbf{R},\mathbf1]$. Tarski supplies a fixed point in that interval; it must be $\mathbf{Q}$. Hence $\mathbf{R}\leq\mathbf{Q}$, and $\mathbf{Q}$ is the greatest capped fixed point.
+
+If a capped fixed point differs from $\mathbf{Q}$, it must have $H(\mathbf{R})>B$, since otherwise it solves the fully honoured equations. Setting $\theta=B/H(\mathbf{R})<1$ gives a pair in $\Gamma_s$ with $B=\theta H(\mathbf{R})$. Conversely, for any pair in $\Gamma_s$, $H(\mathbf{R})>0$ and $\theta<1$ imply that capacity $B=\theta H(\mathbf{R})$ pays exactly fraction $\theta$. It therefore supports the same nonpreferred fixed point. This proves the correspondence.
+
+To establish the threshold, suppose $B_2$ admits a nonpreferred fixed point $\mathbf{R}_2$ and $0\leq B_1\leq B_2$. Then $G_{B_1}(\mathbf{R}_2)\leq G_{B_2}(\mathbf{R}_2)=\mathbf{R}_2$, so $G_{B_1}$ maps $[\mathbf0,\mathbf{R}_2]$ into itself. Tarski gives a fixed point $\mathbf{R}_1\leq\mathbf{R}_2\leq\mathbf{Q}$, with $\mathbf{R}_1\ne\mathbf{Q}$. The nonimplementing capacities are therefore downward closed. The correspondence identifies their supremum with $B_s^\dagger$ and establishes the endpoint criterion. If $\Gamma_s=\varnothing$, every capacity implements uniquely, including $B=0$.
+\end{proof}
+
+For $(\theta,\mathbf{R})\in\Gamma_s$, $F_s(\mathbf{R})\leq\mathbf{R}$, so the earlier interval argument gives $\underline{\mathbf{R}}(s)\leq\mathbf{R}$. Hence $\theta H_s(\mathbf{R})\leq H_s(\underline{\mathbf{R}}(s))=C_{B,\max}(s)$; taking suprema and maxima proves $B^\dagger\leq B_{\mathrm{post}}$. For common capacity $B=B^\dagger$, only states attaining that maximum need the endpoint test. Neither the sufficient-bound nor critical-capacity comparison requires continuity or Eisenberg--Noe regularity. Nonattainment is familiar in unique-implementation problems \citep{Segal2003}. Even in a scalar version of the abstract isotone model, an infimum need not be an attained minimum: for $F(R)=R$ on $[0,1]$, $Q=1$ and $H(R)=1-R$, any $B>0$ implements uniquely but $B=0$ does not.
+
+\subsection{Numerical evaluation by default sets}
+Let $\mathbf{B}=(x_{ij})$ be the bank claim matrix, $w_j=\sum_i x_{ij}=L_j^{BB}>0$ and $\mathbf{a}=\mathbf{a}(s)$. Bold symbols denote matrices and vectors; their subscripts select the indicated blocks. Let $\mathbf{w}=(w_j)$, let $\mathbf{T}=(T_i)$ collect the resource cutoffs, and let $\mathbf{I}$ and $\mathbf1$ denote an identity matrix and a vector of ones of matching dimensions. For a candidate default set $J$ and nondefaulting complement $S=\mathcal B\setminus J$, $\mathbf{Q}_S=\mathbf1$ is necessary since all policy roots lie below $\mathbf{Q}$. With $\boldsymbol{\Gamma}_J=\operatorname{diag}(\lambda_i^B/D_i)_{i\in J}$, the fixed-fraction equations give
+\begin{align}
+ \mathbf{R}_S(\theta)&=\mathbf1,\notag\\
+ \mathbf{R}_J(\theta)&=[\mathbf{I}-(1-\theta)\boldsymbol{\Gamma}_J\mathbf{B}_{JJ}]^{-1}
+ \boldsymbol{\Gamma}_J[\mathbf{a}_J+\mathbf{B}_{JS}\mathbf1+\theta \mathbf{B}_{JJ}\mathbf{Q}_J].
+ \label{eq:minimum-budget-regime}
+\end{align}
+Retain candidates only if $0\leq \mathbf{R}\leq \mathbf{Q}$, $\mathbf{R}\ne \mathbf{Q}$ and, for $\mathbf{V}=\mathbf{a}+\mathbf{B}[(1-\theta)\mathbf{R}+\theta \mathbf{Q}]$,
+\[
+ \mathbf{V}_J<\mathbf{T}_J,\qquad \mathbf{V}_S\geq \mathbf{T}_S.
+\]
+Their associated capacity is $B_J(\theta)=\theta \mathbf{w}_J^\top[\mathbf{Q}_J-\mathbf{R}_J(\theta)]$. Maximizing its supremum over all admissible default regimes computes $B_s^\dagger$.
+
+A sufficient condition for the inverse to exist is
+\[
+ \nu=\max_i\lambda_i^B w_i/D_i<1.
+\]
+Let $\mathbf{A}=\boldsymbol{\Gamma}_J\mathbf{B}_{JJ}$. For every $j\in J$,
+\[
+ (\mathbf{w}_J^\top\mathbf{A})_j
+ =\sum_{i\in J}\frac{\lambda_i^Bw_i}{D_i}B_{ij}
+ \leq\nu\sum_{i\in J}B_{ij}\leq\nu w_j.
+\]
+Thus $\operatorname{spr}(\mathbf{A})\leq\nu<1$. For $\mathbf{M}=\mathbf{I}-(1-\theta)\mathbf{A}$ and $0\leq\theta\leq1$, the inverse is the nonnegative Neumann series $\mathbf{M}^{-1}=\sum_{k\geq0}(1-\theta)^k\mathbf{A}^k$. The determinant of $\mathbf{M}$ cannot vanish and equals one at $\theta=1$, so $\det\mathbf{M}>0$ throughout. In the data $\nu\simeq.15$.
+
+Within an admissible regime let $\mathbf{g}=\mathbf{Q}_J-\mathbf{R}_J(\theta)\geq0$, with $\mathbf{g}\ne0$. Equation~\eqref{eq:minimum-budget-regime} gives the constant vector
+\[
+ \mathbf{M}\mathbf{g}
+ =\mathbf{Q}_J-\boldsymbol{\Gamma}_J
+    [\mathbf{a}_J+\mathbf{B}_{JS}\mathbf1+\mathbf{B}_{JJ}\mathbf{Q}_J].
+\]
+Differentiation yields $\mathbf{g}'=-\mathbf{M}^{-1}\mathbf{A}\mathbf{g}$. Since $\mathbf{A}$ commutes with $\mathbf{M}^{-1}$,
+\[
+ B_J'(\theta)
+ =\mathbf{w}_J^\top(\mathbf{I}-\mathbf{A})\mathbf{M}^{-1}\mathbf{g}
+ \geq(1-\nu)\mathbf{w}_J^\top\mathbf{M}^{-1}\mathbf{g}>0.
+\]
+The strict inequality uses positive weights and $\mathbf{M}^{-1}\mathbf{g}\geq\mathbf{g}\ne0$. Thus the capacity supremum on an admissible interval is its right-hand limit. Endpoint inclusion must still be checked against the strict default inequalities.
+
+The numerical calculation therefore needs only the admissible intervals and their right endpoints; no search for interior maxima is required. For $m$ defaulting banks, $\det\mathbf{M}$ has degree at most $m$ in $\theta$. Since $\mathbf{M}\mathbf{g}$ is constant, the numerator of $\mathbf{g}$ has degree at most $m-1$. Clearing denominators in the default and repayment constraints gives boundary polynomials of degree at most $m$, hence at most four in our application.
+
+The R implementation enumerates the possible default sets, numerically solves these boundary polynomials, and evaluates capacity at the right-hand limit of each admissible interval. It checks isolated boundary candidates and whether each endpoint satisfies the strict default inequalities. At a specified capacity, the equation $B_J(\theta)=B$ is also polynomial after clearing denominators and identifies adverse equilibria within each branch. Direct linear-system calculations and monotone iterations provide independent numerical checks away from cutoffs. An upward iteration at a discontinuity can approach a nonfixed left limit, so iteration alone cannot determine endpoint inclusion. The reported thresholds are numerical approximations, with equation residuals and boundary tolerances checked separately; the calculation is not a symbolic closed-form solution or a grid over $\theta$.
+
+\subsection{Quantitative application and positioning}
+The common critical capacity is approximately EUR~60.6 billion, or 0.29\% of aggregate clearing debt, compared with $B_{\mathrm{post}}=$ EUR~126.3 billion. The maximum is reached in the all-sovereign-default state. The last adverse branch there has limiting ordinary repayments
+\[
+ (R_{\mathrm{DEU}},R_{\mathrm{FRA}},R_{\mathrm{ITA}},R_{\mathrm{ESP}})
+ \simeq(100\%,95.1\%,92.8\%,92.9\%).
+\]
+Its full floor claims approach EUR~67.2 billion and $\theta$ approaches .90. French assets reach $T_{\mathrm{FRA}}$ at that endpoint. Full repayment then applies, so the adverse default candidate is excluded. The same French-cutoff exit determines the implementing threshold in each of the other seven multiple states. Thus all positive state thresholds are attained minima under the maintained tie convention. The other eight states already implement uniquely at zero capacity. The main-paper table reports the state thresholds, rounded to one decimal place.
+
+The target retains fundamental Italian and Spanish bank defaults in the all-sovereign-default state and entails zero transfers. The all-four-bank-default branch ends at about EUR~2.9 billion. This explains why removing the most adverse root need not remove all multiplicity. Numerical evaluation checks all admissible default regimes and their boundary conditions.
+
+The coordination mechanism is established \citep{JacksonPernoud2021}; minimum transfers and worst-equilibrium implementation are central to \citet{JacksonPernoud2024}. Our result characterizes capacity for a specified proportional shortfall rule. Its repayment target can retain fundamental bank defaults. The distinctive policy feature is that creditors anticipate endogenous rationing of repayment-contingent support. The fixed-point comparisons are standard \citep{Tarski1955}, and commitment capacity already matters in sovereign backstop models \citep{RochUhlig2018}. The characterization and finite evaluation quantify the commitment capacity required by this repayment-contingent policy.
+
+These statements hold with fixed portfolios, fixed nonbank receipts and external financing that does not remove bank resources. The sufficient-capacity argument also applies to other fixed floors in $\mathcal K$ if the compensation bound is recomputed for those floors. Unique implementation and the critical-capacity result use the greatest original equilibrium as target. Endogenous nonbank repayment outside the par certificate, endogenous portfolios and resource-withdrawing financing require separate analysis.

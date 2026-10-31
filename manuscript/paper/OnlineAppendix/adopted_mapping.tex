@@ -1,0 +1,93 @@
+\subsection{Clearing debt and fixed settlements}
+
+Write $\mathbf{B}=(B_{ij})$ for the four-country bank-claim matrix and $\mathbf{N}=(N_{ig})$ for bank holdings of sample-country sovereign bonds, with creditor banks in rows. Let $O_i$ collect net group funding, central-bank funding, unallocated remaining funding and outside funding whose repayment rank is not identified. The baseline treats these as fixed settlements, with a matched resource deduction:
+\[
+ D_i=D_i^*-O_i,\qquad
+ b_i=D_i+E_i-\sum_j B_{ij}-\sum_gN_{ig}.
+\]
+Thus $B_{ij}$ is bank block $i$'s claim on bank block $j$, and $N_{ig}$ its sovereign-bond holdings in country $g$. The common bank recovery pool consists of deposits and issued securities, including creditors outside the identified four-country block. The repayment estate includes full accounting equity $E_i=K_i-P_i$. The reconciled reference amount $b_i$ includes performing nonbank receipts and outside assets, government loans outside the bond shock, and coverage/valuation adjustments, after settling $O_i$. It is not separately measured productive wealth. The matched deduction ensures that settling these obligations leaves accounting equity unaffected.
+
+The resulting clearing debts are EUR~7,453.6bn (Germany), 7,987.6bn (France), 2,697.1bn (Italy), and 2,415.9bn (Spain). Fixed outside obligations are approximately EUR~2,235bn, 1,042bn, 495bn and 231bn. The equity-to-clearing-debt ratios are 9.21\%, 8.23\%, 12.28\% and 10.17\%; they differ from the statistical-liability ratios in Table~\ref{tab:residence-accounting} because the repayment pools differ.
+
+Remaining liabilities include large derivative and settlement positions. Available MFI derivative-liability benchmarks are EUR~1,505.1bn in Germany, 246.5bn in Italy and 109.2bn in Spain, with corresponding French detail unpublished. These are not exact S122 replacements and do not identify legal close-out rank. Treating the corresponding obligations as fixed settlements is a transparent modelling convention, not a claim that the data identify a common recovery class.
+
+\subsection{Scenario inputs and equilibrium outcomes}
+Exposures, accounting equity, headroom and the default-cost coefficient are inputs to clearing. Sovereign default states, sovereign recoveries and the associated private-loan impairments are specified by the scenario. Bank credit events and repayments are solved jointly; NBFI repayment is endogenous before the full-repayment certificate is applied. The diagnostic of defaults under full interbank repayment evaluates the scenario assuming that every interbank claim is paid in full; NBFIs repay at par under the certificate. Equilibrium feedback then reflects lost interbank receipts, including claims among distinct domestic institutions. This comparison separates direct losses from repayment amplification without imposing a sequential settlement process. Under a guarantee, transfers and repayments are solved jointly with the policy rule and any capacity limit held fixed.
+
+\subsection{Public prudential headroom and the distress mechanism}
+
+The baseline separates headroom $H_i$ from accounting equity $E_i$. Public end-2024 Pillar 3 EU KM1 disclosures supply capital and requirement ratios for 56 significant institutions in the four countries. Here $j$ indexes individual institutions. Write $KM1(k)_j$ for row $k$ of the EU KM1 key-metrics disclosure, with ratios in decimal form; $RWA_j$ for risk-weighted assets; $T1_j$ for Tier 1 capital; $LE_j$ for the leverage exposure measure; and $OCR_j^{LR}$ for the overall leverage requirement. Each bank's capacity against the risk-weighted and leverage stacks is
+\[
+ h_j^{RW}=[KM1(12)_j-KM1(11)_j]RWA_j,\qquad
+ h_j^{LR}=T1_j-OCR_j^{LR}LE_j,
+\]
+and $h_j^{OCR}=\min\{h_j^{RW},h_j^{LR}\}$. Writing CET1 for Common Equity Tier 1 capital, row 12 already allows for CET1 used to satisfy Tier 1 and total-capital requirements; row 11 is the combined buffer requirement. We do not subtract the total OCR percentage directly from the CET1 ratio or add headrooms across constraints.
+
+Let $CET1_j$ be institution $j$'s CET1 stock, $CET1_c^{SBS}$ and $E_c^{SBS}$ the country CET1-capital and accounting-equity totals from ECB Supervisory Banking Statistics (SBS), and $E_c^{resident}$ resident accounting equity. The country transfer is
+\begin{equation}
+ H_c=\operatorname{median}_{j\in c}(h_j^{OCR}/CET1_j)
+       (CET1_c^{SBS}/E_c^{SBS})E_c^{resident}.
+ \label{eq:ocr-headroom-transfer}
+\end{equation}
+This yields EUR~196.8bn, 208.3bn, 90.6bn and 61.5bn for Germany, France, Italy and Spain. Within-bank ratios cancel native currencies. The public sources are the ECB's selected Pillar 3 disclosures and supervisory statistics \citep{ECBPublicCapital}. The country proxy uses an unweighted median across banks. The disclosures concern the highest supervisory consolidation level; resident offices, foreign branches and smaller banks have different coverage. Publication cutoffs also differ: 31 October 2025 for the Pillar 3 compilation and 2 March 2025 for SBS; Germany has 23 versus 24 institutions, respectively. Equation~\eqref{eq:ocr-headroom-transfer} is therefore a labelled perimeter-transfer proxy. The exposure matrix itself retains the residence perimeter.
+
+Requirements, denominators and valuation bridges remain fixed. Losses hit available capital one-for-one, without tax offsets, changing risk weights, new recapitalization, guidance, management targets or an imputed adjustment for minimum requirements for own funds and eligible liabilities (MREL). A breach of buffers does not legally imply default: the regulatory consequences include distribution restrictions, while minimum-capital breaches are distinct \citep{ECBESRB2026}. Market stigma and parallel constraints can nevertheless make buffer use difficult \citep{ECBBuffer2023}. We use the published headroom as a reduced-form trigger for costly funding distress in the disorderly sovereign-crisis scenario, conditional on no timely stabilizing response.
+
+Let $\mathcal L_{ig}$ denote the additional private-loan loss of bank block $i$ when the sovereign of borrower country $g$ defaults. The next subsection defines this scenario loss from the underlying loan stocks. Normalize contractual bank repayment to one. Let $R_j$ be bank $j$'s repayment rate, $\mathbf{R}=(R_j)$ its vector, $R_g^G(s)$ sovereign $g$'s scenario repayment, and $\delta_g^G(s)$ its default indicator. Write $\lambda_i=\lambda_i^B\in(0,1]$ for the fraction of the estate retained after distress costs, and $V_i$ for bank $i$'s pre-cost resources (the main paper's $A_i$). Define
+\[
+ V_i(s,\mathbf{R})=b_i+\sum_gN_{ig}R_g^G(s)
+          -\sum_g\mathcal L_{ig}\delta_g^G(s)+\sum_jB_{ij}R_j,
+ \qquad T_i=\min\{D_i+E_i-H_i,D_i/\lambda_i\}.
+\]
+The only bank credit event is
+\[
+ R_i=\begin{cases}1,&V_i\geq T_i,\\
+ \lambda_i V_i/D_i,&V_i<T_i.\end{cases}
+\]
+We set $\lambda_i=.90$, following the 10\% remaining-asset cost benchmark used in the systemic bank-stress model of Aikman and coauthors \citep{Aikman2009}. Its economic interpretation is realization and franchise disruption, rather than administrative expenses alone. The cost is a modelling benchmark for a disorderly crisis. Required capital is not removed from $V_i$; all remaining accounting equity absorbs losses and costs first. Partial repayment requires both losses $D_i+E_i-V_i>H_i$ and post-cost resources $\lambda_iV_i<D_i$. A headroom breach alone is not sufficient for a creditor loss. The $D_i/\lambda_i$ cutoff prevents credit-event repayments above face value, and full repayment applies at equality. When $\lambda_i=1$, the rule reduces to ordinary capped pro-rata clearing, irrespective of $H_i\leq E_i$.
+
+\subsection{Private-credit shock and timing}
+
+The private-credit shock follows the borrower's country. Let $i$ index the creditor's national bank block and $g$ the borrower's country, each among Germany, France, Italy and Spain. The $4\times4$ matrix $\mathbf{F}$ records bank loans to nonfinancial firms: $F_{ig}$ is the amount lent by banks in country $i$ to firms in country $g$. The corresponding matrix $\mathbf{Q}$ records loans to households in country $g$ by banks in country $i$. Thus rows identify the creditor's country and columns the borrower's country. Both matrices are loan-only extracts from the exposure register, excluding securities contained in the broader sector exposures.
+
+When sovereign $g$ defaults, bank block $i$ incurs the additional private-credit loss
+\[
+ \mathcal L_{ig}=.018F_{ig}+.017Q_{ig}.
+\]
+For example, a French sovereign default generates private-credit losses for German banks on their loans to French firms and households, even if Germany's sovereign does not default. In state $s$, total additional private-credit losses of bank $i$ are $\sum_g\mathcal L_{ig}\delta_g^G(s)$, where $\delta_g^G(s)$ is one if sovereign $g$ defaults and zero otherwise. These losses are separate from losses on sovereign bonds and from lost interbank receipts.
+
+The rates are rounded exposure-weighted adverse-minus-baseline impairment proxies from the ECB's 2025 stress test, Chart 3.8 \citep{ECBStress2025}. Published secured/unsecured portfolio shares and adverse rates are combined with digitized baseline bars, with the extraction coordinates and rounding preserved. The unrounded pooled incremental rates are approximately 1.81\% for firms and 1.65\% for households. Corporate and retail regulatory portfolios are proxies for national-accounts borrower sectors, and the public data do not identify country-specific causal losses following sovereign default.
+
+These rates capitalize a three-year credit-stress episode at settlement. They are not annual impairments; the sovereign CDS and safe-return conventions remain annual pricing inputs. The impairment is added once in borrower-country sovereign-default states. Opening equity is already net of provisions, and no provision stock is deducted again. Government loans, private debt securities and outside-sample private loan portfolios receive no additional shock. The exercise does not reconstruct dynamic profits, taxes, credit supply or policy responses.
+
+\subsection{Comparison with the ECB's ISA application}
+The ECB's Interconnected System-wide stress test Analytics (ISA) network at end-2024 uses consolidated bank and fund groups and country-level insurance data, combining supervisory and commercial sources \citep{GrassiEtAl2025}. It propagates stress through counterparty losses, liquidity adjustment and fire sales. Our public-data resident-sector construction instead isolates repayment feedback at fixed portfolios. These differences in perimeter and channels preclude a direct comparison of aggregate loss magnitudes.
+
+ISA assumes bank default below a 4.5\% CET1 ratio and also models liquidity default. We report headroom above that CET1 floor as a sensitivity; the baseline uses public OCR/leverage headroom as a conditional trigger for costly funding distress, retaining full accounting equity for repayment. The 1.8\% and 1.7\% loan-loss proxies come from the separate ECB bank stress-test report, not the ISA contagion results \citep{ECBStress2025}. Associating those multi-year losses with sovereign default remains our scenario assumption.
+
+\subsection{NBFI repayment and household incidence}
+
+For NBFI block $m$ in resident S123--S129, let $A_m$ be financial assets, $L_m$ total liabilities, $\mathbf{F}5_m$ equity and investment-fund-share liabilities, and $BF90_m=A_m-L_m$ net financial worth. The public loss-absorption proxy is financial assets less non-equity liabilities, $E_m^M=A_m-(L_m-\mathbf{F}5_m)=BF90_m+\mathbf{F}5_m$. The common debt pool is F2+F3+F4. Other obligations are fixed outside settlements with matching resource treatment. End-2024 buffers are approximately EUR~4,482.7bn, 2,726.6bn, 1,160.0bn and 917.9bn. Fund net asset value (NAV) and other equity claims can absorb losses, but their national pooling and the nonconsolidated perimeter remain strong approximations. A complete equity cross-holding network is not inferred from these totals.
+
+The eight-node financial system includes bank-to-NBFI, NBFI-to-bank and NBFI-to-NBFI claims, with NBFI repayment endogenous and NBFI lambda equal to one. NBFI buffers exceed the maximum loss on all selected endogenous and sovereign claims even if their receipts vanish. They therefore repay fully in every baseline equilibrium. A separate bound using positive lower bounds on bank repayments establishes par repayment at 50\% NBFI availability over the reviewed parameter alternatives. Bank equilibrium vectors coincide exactly under full and half NBFI buffers. NBFI contagion is consequently inactive in this calibration.
+
+Household bank holdings comprise measured deposits and reconciled securities. Deposits account for 95.5--99.8\% of resident households' claims on the four bank blocks. Gross claim shortfalls cannot be equated to uninsured household losses; protection and its financing change incidence \citep{EBADGS}. The main paper reports the within-state gap $\sum_j x_{H_c,j}(\bar R_j-R_j)$ and its percentage of observed annual consumption. A one-for-one consumption interpretation additionally holds nonfinancial resources, other receipts and financing fixed and ignores deposit protection. Consumption levels and household preference parameters are not needed for that difference or for bank clearing.
+
+\subsection{Gross domestic interbank claims and exact block aggregation}
+
+After the identified related-office adjustment, domestic bank claims are EUR~1,074.8bn, 1,103.9bn, 112.6bn and 66.4bn. They are gross claims among distinct institutions. Retaining them in a national block creates a diagonal in $\mathbf{B}$, rather than an actual own claim by a legal bank. The baseline keeps these exposures and interprets each block as institutions sharing a repayment rate.
+
+A constructive aggregation argument makes this interpretation precise. Split block $i$ into $n_i\geq2$ identical institutions, each with $D_i/n_i$, $E_i/n_i$, $H_i/n_i$, $b_i/n_i$ and proportional external exposures. For different blocks, allocate claim $B_{ij}$ at $B_{ij}/(n_in_j)$ per creditor/debtor pair. Within block $i$, give each ordered pair of distinct institutions claim $B_{ii}/[n_i(n_i-1)]$ and set own claims to zero. Under symmetric repayment $R_i$, each institution receives $V_i(s,\mathbf{R})/n_i$. Its threshold and debt scale by the same factor, so its repayment map is exactly the aggregate map. Every aggregate fixed point thus lifts to a genuine network without own claims.
+
+All 25 baseline equilibria were checked under two such disaggregations, including unequal numbers of institutions across blocks, with residuals below $10^{-10}$. This construction establishes symmetric aggregation of the repayment map. It does not assert symmetric exposure patterns in the data or rule out asymmetric equilibria. Cancelling domestic claims and equal liabilities instead changes both the clearing representation and the estate exposed to default costs; that diagnostic removes baseline multiplicity. Gross domestic exposures are therefore a material aggregation assumption.
+
+\subsection{Quantitative results and robustness}
+
+The baseline has 12 sovereign states with bank defaults under full interbank repayment and 8 states with multiple equilibria, giving 25 banking equilibria in total. The no-sovereign-default state is unique. The preferred-equilibrium floor leaves one equilibrium in each state and pays zero; a common recovery backstop removes multiplicity at 40\% coverage on the five-percentage-point grid. The restricted containment rule, which excludes claims on banks whose own sovereign defaults, pays nothing and leaves the baseline set unchanged. Thus the broad guarantees are effective, while this eligibility restriction is not.
+
+The restricted rule's inactivity holds over the entire coverage interval. The monotone comparison preceding \eqref{eq:repayment-floor-budget-bound} places every equilibrium supported by nonnegative transfers above some original equilibrium. Every eligible bank repays at par in every original equilibrium, so it must also repay at par under the restricted rule. No eligible default can generate a transfer; the policy equations therefore reduce to the original equations, with the same fixed points for every coverage fraction $\eta\in[0,1]$.
+
+The recovery backstop caps bank creditors' receipts at face value, which is necessary because prudential default can occur with positive pre-cost equity. Complete enumeration checks default sets and all binding-floor/cap regions. The sufficient-budget proof above continues to apply to the prudential cutoff. A 75-case joint local sensitivity retains multiplicity in 3--10 states; alternative public quartiles, minimum requirements, sovereign recoveries and buffer-use capacities are reported separately.
+
+The replication files provide the exposure register, source metadata, model inputs and equilibrium calculations. Guarantee comparisons preserve the reference exposures; the separate purchase counterfactual changes only the specified bond and reserve positions. The R driver \texttt{main.R} generates the reported results; amounts are expressed in EUR billions.
+\FloatBarrier

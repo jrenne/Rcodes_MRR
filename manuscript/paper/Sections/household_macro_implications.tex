@@ -1,0 +1,50 @@
+\subsection{Household consumption across banking equilibria}
+\label{subsec:household-macro-implications}
+
+With portfolios, debt payments and other resources fixed, differences in gross bank receipts give a conditional date-2 consumption equivalent. Let $c_{2,c}^e(s)$ denote country $c$'s household consumption at date 2 in equilibrium $e$ and sovereign state $s$. Relative to the preferred equilibrium $e^*(s)$, the shortfall is
+\begin{equation}
+ \Delta c_{2,c}^{e}(s)
+ =c_{2,c}^{e^*(s)}(s)-c_{2,c}^{e}(s)
+ =\sum_{j\in\mathcal B}x_{H_c,j}
+   \left[R_j^{e^*(s)}(s)-R_j^e(s)\right].
+ \label{eq:household-consumption-shortfall}
+\end{equation}
+Only bank payments vary across equilibria within a sovereign state in the
+baseline. Debt payments and common income cancel in this comparison.
+
+Table~\ref{tab:household-consumption-changes} reports maximum shortfalls by
+country and sovereign state, with percentages of observed 2024 consumption
+in parentheses. Total is maximized within a single equilibrium. These are
+gaps under the same sovereign shock; zero in a unique-equilibrium state
+does not imply zero loss from sovereign default.
+
+\begin{table}[htbp]
+\centering
+\floatcaption{Gross household receipt shortfalls and consumption equivalents}{Country codes in the first column identify defaulting sovereigns;
+None denotes no sovereign default. Equilibria counts banking equilibria
+without intervention. Country columns report
+$\max_{e\in\mathcal E_0(s)}\Delta c_{2,c}^e(s)$; Total reports
+$\max_{e\in\mathcal E_0(s)}\sum_c\Delta c_{2,c}^e(s)$, with the sum taken
+before maximization. Amounts are rounded to whole EUR billions independently; $<1$ denotes a
+positive amount below EUR~1 billion and a dash denotes zero. Parentheses
+report percentages of observed 2024 household and non-profit institutions serving households (NPISH) final consumption
+expenditure (Eurostat, \texttt{nama\_10\_gdp}, \texttt{P31\_S14\_S15},
+current prices; retrieved 21 October 2026). Denominators are EUR~2,359.2 billion
+(DEU), 1,595.5 billion (FRA), 1,273.7 billion (ITA), and 883.8 billion (ESP).
+Total is divided by their sum. Percentages are calculated from unrounded losses.
+Portfolios and nonbank payments are held fixed within each sovereign state. The figures cover direct household bank claims before deposit insurance, compensation, associated financing, indirect ownership and output responses. They are not estimates of uninsured household losses or realized aggregate consumption effects.}
+\label{tab:household-consumption-changes}
+
+\begingroup
+\small
+\setlength{\tabcolsep}{3pt}
+\input{Figures/household_consumption_changes_table.tex}
+\endgroup
+\par\smallskip
+
+\end{table}
+
+Following French sovereign default alone, the gross French household receipt gap is EUR~102 billion (6.39\% of observed annual consumption), compared with about EUR~1 billion (0.04\%) in Germany. French bank repayment falls from 100\% to 94.7\%; German banks still repay fully. Because most household bank claims are deposits, translating this gross gap into actual consumption requires information on deposit protection and its financing that the aggregate matrix does not supply.
+
+Section~\ref{sec:ex-post-compensation} studies how a guarantee can eliminate these within-state repayment gaps. Appendix~\ref{app:household-completion} gives an optional household model linking receipts to consumption and utility. The table itself requires no preference calibration and reports gross receipt differences.
+

@@ -1,0 +1,5 @@
+portfolio,adverse_cumulative_rate,baseline_cumulative_rate,exposure_share_pct,native_image_y,orange_x_min,orange_x_max,orange_width_pixels,baseline_digitised_unrounded_pp,source_pdf_page,source_printed_page,source_chart
+corporate_secured,0.034,0.006999999999999999,6.0,174,140,157,18,0.663594470046083,29,28,"3.8a (rates), 3.8b (weights)"
+corporate_unsecured,0.024,0.008,24.8,214,140,160,21,0.7741935483870968,29,28,"3.8a (rates), 3.8b (weights)"
+retail_secured,0.01,0.003,23.3,250,140,147,8,0.29493087557603687,29,28,"3.8a (rates), 3.8b (weights)"
+retail_unsecured,0.065,0.028999999999999998,11.4,290,140,218,79,2.912442396313364,29,28,"3.8a (rates), 3.8b (weights)"

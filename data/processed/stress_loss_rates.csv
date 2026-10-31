@@ -1,0 +1,3 @@
+"model_sector","pooled_exposure_share_pct","pooled_adverse_rate","pooled_baseline_rate","pooled_incremental_rate","crisis_loan_loss_rate"
+"firms",30.8,0.025948051948052,0.0078051948051948,0.0181428571428571,0.018
+"households",34.7,0.0280691642651297,0.0115417867435158,0.0165273775216138,0.017

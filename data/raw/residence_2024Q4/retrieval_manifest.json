@@ -1,0 +1,51 @@
+[
+  {
+    "file": "bsi_monthly_ea.csv",
+    "url": "https://data-api.ecb.europa.eu/service/data/BSI/M.AT+BE+CY+DE+EE+ES+FI+FR+GR+HR+IE+IT+LT+LU+LV+MT+NL+PT+SI+SK.N.A.A20+A20G+A30+L20+L20G+L40+L60+T00+A40+A50+A60+A70+L70.A+X.1.AT+BE+CY+DE+EE+ES+FI+FR+GR+HR+IE+IT+LT+LU+LV+MT+NL+PT+SI+SK+U6+U5+U2+U4+W0+Z5..Z01.E?startPeriod=2024-12&endPeriod=2024-12&format=csvdata",
+    "retrieved_utc": "2026-10-21T19:48:47.179459+00:00",
+    "sha256": "b16a635b62bb564bf7a4c208e5572cef5d022ef60481cdd6bdee6524a0b386ab",
+    "bytes": 1114578
+  },
+  {
+    "file": "bsi_quarterly_ea.csv",
+    "url": "https://data-api.ecb.europa.eu/service/data/BSI/Q.AT+BE+CY+DE+EE+ES+FI+FR+GR+HR+IE+IT+LT+LU+LV+MT+NL+PT+SI+SK.N.A.A20+A20G+A30+L20+L20G+L40+L60+T00+A40+A50+A60+A70+L70.A+X.1.AT+BE+CY+DE+EE+ES+FI+FR+GR+HR+IE+IT+LT+LU+LV+MT+NL+PT+SI+SK+U6+U5+U2+U4+W0+Z5..Z01.E?startPeriod=2024-Q4&endPeriod=2024-Q4&format=csvdata",
+    "retrieved_utc": "2026-10-21T19:48:48.342074+00:00",
+    "sha256": "f38b037123e72251f2e9ed8c66a75502aefbd862db89f78dd07e7d37730c2875",
+    "bytes": 3465687
+  },
+  {
+    "file": "bsi_bank_totals_all_ea.csv",
+    "url": "https://data-api.ecb.europa.eu/service/data/BSI/Q.AT+BE+CY+DE+EE+ES+FI+FR+GR+HR+IE+IT+LT+LU+LV+MT+NL+PT+SI+SK.N.B...1...Z01.E?startPeriod=2024-Q4&endPeriod=2024-Q4&format=csvdata",
+    "retrieved_utc": "2026-10-21T19:53:15.845206+00:00",
+    "sha256": "926e69d10465964952ddd6cae7c34f6488751cb940924e68e2e211793078b78a",
+    "bytes": 220815
+  },
+  {
+    "file": "bsi_mmf_detail.csv",
+    "url": "https://data-api.ecb.europa.eu/service/data/BSI/Q.AT+BE+CY+DE+EE+ES+FI+FR+GR+HR+IE+IT+LT+LU+LV+MT+NL+PT+SI+SK.N.F...1...Z01.E?startPeriod=2024-Q4&endPeriod=2024-Q4&format=csvdata",
+    "retrieved_utc": "2026-10-21T19:48:45.691422+00:00",
+    "sha256": "1234c740bd0a848af31face2da96d8a7975ae475f66be55c8ba7aa16aed0593a",
+    "bytes": 115400
+  },
+  {
+    "file": "shss_structure.xml",
+    "url": "https://data-api.ecb.europa.eu/service/dataflow/ECB/SHSS/1.0?references=all",
+    "retrieved_utc": "2026-10-21T19:48:46.231694+00:00",
+    "sha256": "3f2533ba384a79496a63cc4c17718675c593e80a250bbd2f45f659ed5bb3fc34",
+    "bytes": 906691
+  },
+  {
+    "file": "shss_holdings.csv",
+    "url": "https://data-api.ecb.europa.eu/service/data/SHSS/Q.N.DE+FR+IT+ES.DE+FR+IT+ES+W2+U2+U5+W0.S122+S123.S13+S11+S122+S1.N.A.LE.F3.T._Z.XDC._T.M+F.V.N._T?startPeriod=2024-Q4&endPeriod=2024-Q4&format=csvdata",
+    "retrieved_utc": "2026-10-21T19:51:43.573919+00:00",
+    "sha256": "7b622fa7621490322f336bf6680a4177532c9ccd96e73cbc52562ccc95d5fe72",
+    "bytes": 51574
+  },
+  {
+    "file": "bsi_structure.xml",
+    "url": "https://data-api.ecb.europa.eu/service/dataflow/ECB/BSI/1.0?references=all",
+    "retrieved_utc": "2026-10-21T19:48:46.572075+00:00",
+    "sha256": "dadc6f0a044cb1ecdf273ed205ed643f6880c99821e978219239fbd4d4af2bee",
+    "bytes": 743685
+  }
+]

@@ -1,0 +1,73 @@
+\section{Bank balance-sheet reconciliation and model interpretation}
+\label{app:residence-model-mapping}
+
+\subsection{Accounting capital and intragroup adjustments}
+
+Let $A_i$ be reported statistical assets, $K_i$ capital and reserves, and $D_i^{\rm stat}=A_i-K_i$ the remaining liabilities. The published BSI identity is
+\[
+ A_i=\text{euro-area deposits}_i+\text{issued securities}_i
+       +\text{external liabilities}_i+\text{remaining liabilities}_i+K_i.
+\]
+Instrument and geographical detail are reconciled within these controls. Household bank claims are measured from deposits and securities holdings.
+
+Removing related-office assets $g_i^A=\sum_jG_{ij}$ and funding $g_i^L=\sum_jG_{ji}$ can leave a net cross-border group position. Define
+\[
+ n_i^A=\positive{g_i^A-g_i^L},\qquad
+ n_i^L=\positive{g_i^L-g_i^A}.
+\]
+The following fixed group adjustments preserve capital:
+\begin{equation}
+ A_i^*=A_i-g_i^A+n_i^A,\qquad
+ D_i^*=D_i^{\rm stat}-g_i^L+n_i^L,\qquad
+ A_i^*-D_i^*=K_i.
+ \label{eq:group-bridge}
+\end{equation}
+These net group positions are resources or obligations outside the interbank transmission network. The baseline holds them fixed across sovereign states and banking equilibria.
+
+Statistical capital includes provisions against assets. Let $P_i$ denote those provisions. Showing equity excluding them requires a matched asset adjustment:
+\begin{equation}
+ E_i=K_i-P_i,\qquad A_i^{*,\rm net}=A_i^*-P_i,
+ \qquad A_i^{*,\rm net}-D_i^*=E_i.
+ \label{eq:provision-bridge}
+\end{equation}
+Provisions are not ordinary creditor debt. Nor is either $K_i$ or $E_i$ automatically the model's effective buffer against additional stress losses: existing allowances, valuation and the definition of the shock must be treated consistently. Table~\ref{tab:residence-accounting} reports the accounting benchmarks.
+
+\begin{table}[H]
+\centering
+\floatcaption{Selected balance-sheet controls and reconciled exposures, end-2024}{EUR bn unless stated otherwise. Household funding sums measured deposits and reconciled bank securities held by households in the four sample countries; columns identify the debtor banking sector. Bank--bank claims include loans and securities after identified related-office loan removal. Capital components use the public MFI detail; its total equals the corresponding S122 capital control in each sample country. Ratios use adjusted statistical liabilities before fixed outside settlements; they differ from equity divided by clearing debt and are not regulatory leverage ratios.}
+\label{tab:residence-accounting}
+
+\small
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrr@{}}
+\toprule
+ & Germany & France & Italy & Spain \\
+\midrule
+Reported assets $A_i$ & 10,801.2 & 11,715.2 & 3,849.0 & 3,092.4 \\
+Related-office assets removed $g_i^A$ & 372.4 & 1,912.1 & 280.4 & 221.0 \\
+Related-office funding removed $g_i^L$ & 430.0 & 1,993.3 & 303.3 & 174.0 \\
+Statistical capital $K_i$ & 739.8 & 773.1 & 376.4 & 271.4 \\
+Asset provisions $P_i$ & 53.4 & 116.1 & 45.2 & 25.6 \\
+Equity net of provisions $E_i$ & 686.4 & 657.0 & 331.2 & 245.7 \\
+$E_i/D_i^*$ (percent) & 7.08 & 7.28 & 10.37 & 9.28 \\
+\addlinespace
+Household funding of bank sector & 3,004.3 & 1,958.5 & 1,323.9 & 1,051.7 \\
+Domestic bank--bank claims & 1,074.8 & 1,103.9 & 112.6 & 66.4 \\
+Domestic bank sovereign bonds & 134.4 & 259.7 & 356.8 & 236.6 \\
+Reported remaining liabilities & 1,914.1 & 870.9 & 427.1 & 205.4 \\
+\bottomrule
+\end{tabular*}
+
+\end{table}
+
+\subsection{From accounting positions to repayment exposures}
+
+The reporting matrix covers selected bilateral claims, while the source balance sheet also includes government loans, equity holdings, nonfinancial assets and other items. We record those omitted assets and reconcile coverage and valuation differences to the published totals. The remaining net group position is also accounted for separately. Let $A_i^{\rm matrix}$ and $D_i^{\rm matrix}$ be the selected matrix's asset and liability totals, $A_i^{\rm govt\ loans}$ separately recorded government loans, and $A_i^{\rm other}$ the other assets and reconciliation adjustments. They satisfy
+\begin{align}
+ &A_i^{\rm matrix}+A_i^{\rm govt\ loans}
+       +A_i^{\rm other}+n_i^A \notag\\
+ &\hspace{1.3cm}=D_i^{\rm matrix}+n_i^L+K_i.
+ \label{eq:full-resource-bridge}
+\end{align}
+Here $A_i^{\rm other}$ is the amount needed to reconcile selected assets with the reported asset total after government loans and related-office adjustments. It combines assets outside the selected claims with coverage and valuation differences; the sources do not identify all of its bilateral counterparties. It is treated as part of reference repayment resources, not as independently measured productive wealth. Model equity cannot be inferred by subtracting the selected column sum from the selected row sum alone.
+

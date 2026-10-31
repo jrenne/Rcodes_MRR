@@ -1,0 +1,22 @@
+.Rproj.user/
+.Rhistory
+.RData
+.DS_Store
+tmp/
+/output/
+*.log
+
+
+# Local market workbook: redistribution rights are unverified.
+private_data/
+replication_package.zip
+/outputs/
+
+# Rebuilds and LaTeX intermediates.
+outputs/data_rebuild/
+*.aux
+*.fls
+*.fdb_latexmk
+*.out
+*.blg
+*.toc

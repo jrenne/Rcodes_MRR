@@ -1,0 +1,40 @@
+\section{An optional household completion}\label{app:household-completion}\label{app:calibration_implementation}
+
+The clearing analysis takes exposures and reference repayment resources as given. This appendix describes a household-saving model that can interpret those positions and their consumption incidence. It is not used to determine exposures, calibrate bank resources or solve any of the reported policy experiments.
+
+\subsection{Complete accounts and household saving}\label{sec:model_households}
+
+Consider complete date-1 accounts. Node $i$ has initial resources $e_i$, absorption $C_i$, lending $X_i=\sum_jx_{ij}$ and borrowing $D_i=\sum_jx_{ji}$. Set $\alpha_{ij}=x_{ij}/X_i$ when $X_i>0$, and use any nonnegative portfolio-share row summing to one when $X_i=0$. Bold symbols denote vectors, and $\boldsymbol\alpha=(\alpha_{ij})$ is the portfolio-share matrix. The accounts satisfy
+\[
+ e_i+D_i=C_i+X_i,\qquad
+ \mathbf D=\boldsymbol\alpha^\top\mathbf X,
+ \qquad \mathbf e=\mathbf C+\mathbf X-\mathbf D.
+\]
+Set $C_{H_c}=c_{1,c}$ and $C_i=0$ for other nodes. These identities concern complete accounts; the selected empirical network instead uses the bank reconciliation to supply omitted resources, clearing debt and accounting equity. Initial resources $e_i$ are distinct from bank accounting equity.
+
+Let $Y_{2,c}(s)$ be nonportfolio resources, $P_{H_c}(s)$ the household debt payment, $\beta>0$ the discount factor, and $u_c^0,u_c^1,u_c^2$ utility coefficients, with $u_c^2>0$. Let $r$ and $r^R$ denote the reference private and safe gross returns, both normalized to one in the quantitative exercise. These resources and debt payments are given. The reference debt payment is $rD_{H_c}$; scenario payments may reflect the specified impairment of bank-held household loans. On household-held claims, $R_j$ is the realized government or bank repayment when the debtor is a sovereign or bank, $r$ for the other domestic sectors under the baseline par-repayment result, and $r^R$ for the Eurosystem and Other counterparties. Instrument-specific scenario payoffs can be incorporated without changing the saving argument.
+
+Household $H_c$ takes borrowing, portfolio shares and the distribution of claim repayments as given. It chooses $c_{1,c}\geq0$ and $X_{H_c}\geq0$ to maximize
+\[
+ u_c(c_{1,c})+\beta\mathbb E[c_{2,c}],\qquad
+ u_c(c)=u_c^0+u_c^1c-\frac{u_c^2}{2}c^2,
+ \quad u_c^2>0,\quad\beta>0,
+\]
+subject to
+\[
+ e_{H_c}+D_{H_c}=c_{1,c}+X_{H_c},\qquad
+ c_{2,c}(s)=Y_{2,c}(s)+X_{H_c}\sum_j\alpha_{H_c,j}R_j(s)-P_{H_c}(s).
+\]
+
+The objective is strictly concave in $c_{1,c}$, with second derivative $-u_c^2<0$. At an interior solution, $u_c^1-u_c^2c_{1,c}=\beta\mathbb E[\sum_j\alpha_{H_c,j}R_j]$, giving
+\[
+ X_{H_c}=e_{H_c}+D_{H_c}-\frac{u_c^1}{u_c^2}
+       +\frac{\beta}{u_c^2}\mathbb E\!\left[\sum_j\alpha_{H_c,j}R_j\right].
+\]
+This condition is not imposed in calibration or clearing: exposures are observed or reconstructed inputs. The completion does not model firms' portfolio choices or credit-supply responses.
+
+\subsection{Consumption and utility differences}
+
+Fix a sovereign state and compare two banking equilibria with identical portfolios, debt payments and nonportfolio resources. Their date-2 consumption difference equals their receipt difference. With NBFIs repaying in full, only bank payments vary, yielding the expression in Section~\ref{subsec:household-macro-implications}.
+
+With date-1 consumption fixed, full pass-through of receipts to date-2 consumption and no other transfers or financing costs, the conditional utility gain from selecting the preferred equilibrium is $\beta\Delta c_{2,c}^e(s)$. Deposit protection and its financing can change that incidence. These assumptions do not turn gross receipt differences into estimates of realized consumption or welfare gains; neither consumption levels nor preference parameters enter their calculation.

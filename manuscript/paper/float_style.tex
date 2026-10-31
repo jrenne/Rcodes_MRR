@@ -1,0 +1,8 @@
+% Keep each float's explanation in the same paragraph as its bold title.
+\usepackage{caption}
+\captionsetup{format=plain,labelfont=bf,textfont=normalfont,font=small,
+  justification=raggedright,singlelinecheck=false,position=top,skip=8pt}
+\newcommand{\floatcaption}[2]{%
+  \caption[#1]{\textbf{#1}%
+    \if\relax\detokenize{#2}\relax\else.\space{\normalfont\footnotesize #2}\fi}%
+}

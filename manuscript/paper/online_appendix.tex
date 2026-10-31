@@ -1,0 +1,37 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathpazo}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[authoryear,round]{natbib}
+\usepackage{booktabs,tabularx,array,threeparttable}
+\usepackage[margin=2.2cm]{geometry}
+\usepackage{microtype}
+\usepackage{placeins}
+\usepackage{float}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue,hypertexnames=false]{hyperref}
+\hypersetup{pdftitle={Online Appendix: Sovereign Risk Spillovers across Countries and Sectors},pdfauthor={Benoit Mojon, Xavier Ragot, Jean-Paul Renne}}
+\newtheorem{proposition}{Proposition}
+\newcommand{\positive}[1]{\left[#1\right]_+}
+\newcommand{\bb}{\mathcal B}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\baselinestretch}{1.06}
+\widowpenalty=10000
+\clubpenalty=10000
+\input{float_style.tex}
+\begin{document}
+\begin{center}
+{\Large\bfseries Online Appendix}\\[0.18cm]
+{\large Sovereign Risk Spillovers across Countries and Sectors}\\[0.18cm]
+Beno\^it Mojon\qquad Xavier Ragot\qquad Jean-Paul Renne
+\end{center}
+\medskip
+This appendix first establishes the repayment-floor capacity results. It then explains the design and construction of the public-data exposure network, separating source observations, bilateral allocations and accounting reconciliation from the assumptions governing distress. A final section documents the Eurosystem purchase experiment. The baseline is the end-2024 residence network with public OCR headroom, full accounting equity and bank $\lambda=.90$.
+\input{OnlineAppendix/repayment_floor_budget}
+\input{OnlineAppendix/database_overview}
+\input{OnlineAppendix/database_construction}
+\input{OnlineAppendix/model_mapping}
+\input{OnlineAppendix/adopted_mapping}
+\input{OnlineAppendix/eurosystem_purchases}
+\input{OnlineAppendix/references}
+\end{document}
