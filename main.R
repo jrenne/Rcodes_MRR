@@ -44,6 +44,5 @@ source("scripts/02_equilibria.R", local = new.env())
 source("scripts/03_floor_capacity.R", local = new.env())
 source("scripts/04_bond_purchases.R", local = new.env())
 source("scripts/05_figures_tables.R", local = new.env())
-source("scripts/06_sync_manuscript.R", local = new.env())
 
 message("Replication complete. Results are in outputs/ and Figures/.")

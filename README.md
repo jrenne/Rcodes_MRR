@@ -1,6 +1,6 @@
 # Sovereign Risk Spillovers across Countries and Sectors
 
-R code and data for the [paper](manuscript/paper/main.pdf) and [Online Appendix](manuscript/paper/online_appendix.pdf) by Benoît Mojon, Xavier Ragot and Jean-Paul Renne. The data cover Germany, France, Italy and Spain at the end of 2024.
+Replication code and data for *Sovereign Risk Spillovers across Countries and Sectors* by Benoît Mojon, Xavier Ragot and Jean-Paul Renne. The data cover Germany, France, Italy and Spain at the end of 2024.
 
 ## Reproduce the results
 
@@ -18,7 +18,7 @@ Rscript main.R
 
 All required inputs are included. Numerical results are written to `outputs/`, and figures and tables to `Figures/`.
 
-**Runtime:** a complete run took approximately **11 seconds** on an Apple M4 Mac with 24 GB RAM and R 4.5.1. This includes calibration, equilibria, sensitivities, policy experiments, figures and tables, starting from the supplied processed data. It excludes package installation, data reconstruction, validation tests and PDF compilation. Allow roughly a minute on a recent computer; the actual time depends on the hardware.
+**Runtime:** a complete run took approximately **11 seconds** on an Apple M4 Mac with 24 GB RAM and R 4.5.1. This includes calibration, equilibria, sensitivities, policy experiments, figures and tables, starting from the supplied processed data. It excludes package installation, data reconstruction and validation tests. Allow roughly a minute on a recent computer; the actual time depends on the hardware.
 
 ## Parameters and code
 

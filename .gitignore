@@ -3,20 +3,9 @@
 .RData
 .DS_Store
 tmp/
-/output/
 *.log
 
-
-# Local data and generated outputs.
-private_data/
-replication_package.zip
 /outputs/
-
-# Rebuilds and LaTeX intermediates.
-outputs/data_rebuild/
-*.aux
-*.fls
-*.fdb_latexmk
-*.out
-*.blg
-*.toc
+/replication_package.zip
+/private_data/
+/manuscript/
