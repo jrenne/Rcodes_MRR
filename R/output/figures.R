@@ -97,28 +97,28 @@ titles <- c(
   "(a) States with multiplicity", "(b) Interbank credit loss in crises (bp)",
   "(c) Payments in crises (% bank debt)", "(d) Largest state-expected payment (%)"
 )
-colours <- c("#338461", "#346A93", "#B85448")
+colours <- rep(c("#338461", "#346A93", "#B85448"), length.out = length(settings$rho_values))
 for (i in 1:4) {
   plot(NA,
     xlim = c(0, 1), ylim = range(c(0, g[[fields[i]]])) * c(1, 1.1),
     xlab = "Coverage (%)", ylab = "", main = titles[i], cex.main = .9, xaxt = "n"
   )
   axis(1, at = seq(0, 1, by = .1), labels = seq(0, 100, by = 10))
-  for (j in 1:3) {
-    d <- g[abs(g$adverse_equilibrium_probability - c(.1, .2, .3)[j]) < 1e-10, ]
+  for (j in seq_along(settings$rho_values)) {
+    d <- g[abs(g$adverse_equilibrium_probability - settings$rho_values[j]) < 1e-10, ]
     lines(d$backstop_coverage_eta, d[[fields[i]]], type = "b", col = colours[j], pch = 15 + j, lwd = 1.4)
   }
-  if (i == 1) legend("topright", paste("rho =", c(.1, .2, .3)), col = colours, lty = 1, pch = 16:18, bty = "n", cex = .8)
+  if (i == 1) legend("topright", paste("rho =", settings$rho_values), col = colours, lty = 1, pch = 15 + seq_along(settings$rho_values), bty = "n", cex = .8)
 }
 invisible(dev.off())
 
 # Main-text panels use statewise quantities, with no selection weights.
-d <- g[abs(g$adverse_equilibrium_probability - .2) < 1e-10, ]
+d <- g[abs(g$adverse_equilibrium_probability - settings$rho) < 1e-10, ]
 pdf("Figures/interbank_recovery_backstop_grid.pdf", width = 9, height = 3.7)
 par(mfrow = c(1, 2), mar = c(4, 4, 3, 1), mgp = c(2.5, .7, 0), las = 1)
 plot(d$backstop_coverage_eta, d$multiple_equilibrium_states,
   type = "b", pch = 16,
-  col = "#346A93", lwd = 1.4, xlim = c(0, 1), ylim = c(0, 8.5), xaxt = "n",
+  col = "#346A93", lwd = 1.4, xlim = c(0, 1), ylim = c(0, max(d$multiple_equilibrium_states) + .5), xaxt = "n",
   xlab = "Coverage (%)", ylab = "", main = "(a) States with multiplicity", cex.main = .95
 )
 axis(1, at = seq(0, 1, by = .1), labels = seq(0, 100, by = 10))

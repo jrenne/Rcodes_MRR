@@ -62,8 +62,10 @@ rows <- sprintf(
   "%s & %.1f & %.1f", positive$sovereign_defaults,
   positive$critical_budget_eur_bn, positive$sufficient_budget_eur_bn
 )
+zero_states <- sum(records$critical_budget_eur_bn <= 0)
+other_label <- paste("Other", if (zero_states == 8) "eight" else zero_states, "states & 0 & 0")
 table_tex(
   "Figures/minimum_floor_budget_table.tex",
-  "Sovereign defaults & Minimum capacity & Sufficient bound", c(rows, "\\midrule\nOther eight states & 0 & 0"), "lrr"
+  "Sovereign defaults & Minimum capacity & Sufficient bound", c(rows, paste0("\\midrule\n", other_label)), "lrr"
 )
 message("Repayment-floor capacity: EUR ", round(maximum$critical_budget_eur_bn, 1), " bn.")

@@ -41,6 +41,11 @@ write.csv(
   row.names = FALSE
 )
 stopifnot(all(g$multiple_equilibrium_states[g$backstop_coverage_eta == .5] == 0))
+fine <- read.csv("outputs/sensitivities/coverage_refinement.csv")
+stopifnot(
+  all(fine$multiple_states[fine$coverage_eta >= .36] == 0),
+  fine$multiple_states[which.min(abs(fine$coverage_eta - .35))] == 1
+)
 checked <- 0L
 for (y in c(list(b$result, x$floor_policy), x$backstop_policies)) {
   k <- repayment_resources(y$system)

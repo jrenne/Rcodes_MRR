@@ -1,63 +1,74 @@
 # Sovereign Risk Spillovers across Countries and Sectors
 
-Replication code for Benoît Mojon, Xavier Ragot and Jean-Paul Renne.
-Run all commands from the repository root. The paper uses public residence-based data for Germany, France, Italy and Spain at end-2024.
+R code and data for the [paper](manuscript/paper/main.pdf) and [Online Appendix](manuscript/paper/online_appendix.pdf) by Benoît Mojon, Xavier Ragot and Jean-Paul Renne. The data cover Germany, France, Italy and Spain at the end of 2024.
 
-## Run the paper
+## Reproduce the results
 
-Open `Rcodes_MRR.Rproj`, or start R from this directory. Numerical replication uses R (tested with 4.5.1) and `jsonlite`. To run both the replication and the full test suite, which also rebuilds the public data, install:
+Use R from the repository root, or open `Rcodes_MRR.Rproj` in RStudio. The calculations require `jsonlite` and have been tested with R 4.5.1:
 
 ```r
-install.packages(c("jsonlite", "dplyr", "tidyr", "quadprog", "readxl"))
+install.packages("jsonlite")
 ```
 
-Then run:
+Run:
 
 ```sh
 Rscript main.R
+```
+
+All required inputs are included. Numerical results are written to `outputs/`, and figures and tables to `Figures/`.
+
+**Runtime:** a complete run took approximately **11 seconds** on an Apple M4 Mac with 24 GB RAM and R 4.5.1. This includes calibration, equilibria, sensitivities, policy experiments, figures and tables, starting from the supplied processed data. It excludes package installation, data reconstruction, validation tests and PDF compilation. Allow roughly a minute on a recent computer; the actual time depends on the hardware.
+
+## Parameters and code
+
+The `settings` block at the beginning of `main.R` defines default costs, sovereign recovery, private-loan loss rates, equilibrium-selection weights, coverage grids, sensitivity ranges and bond-purchase experiments. Edit this block to change the exercise. Country coverage, country order (DEU, FRA, ITA, ESP) and the reference date are tied to the supplied data.
+
+The calculation scripts follow the paper:
+
+| Script | Calculations | Results |
+|---|---|---|
+| `scripts/01_calibrate.R` | Accounting, crisis parameters and sensitivities (Sections 2–3 and Appendix D) | `outputs/baseline.rds`, `outputs/sensitivities/` |
+| `scripts/02_equilibria.R` | Equilibria, household receipt gaps, compensation and recovery backstop (Sections 4–6) | `outputs/equilibria.rds`, CSV summaries |
+| `scripts/03_floor_capacity.R` | Minimum repayment-floor capacity (Section 5 and Online Appendix) | `outputs/floor_capacity/` |
+| `scripts/04_bond_purchases.R` | Sovereign-bond purchase experiments (Section 7) | `outputs/bond_purchases/` |
+| `scripts/05_figures_tables.R` | Figures, exposure and capital tables, and dependence sensitivity | `Figures/` |
+
+`R/model/` contains the clearing and policy calculations, `R/output/` produces the figures and tables, and `R/data/` reconstructs the input data.
+
+Matrix **rows are creditors and columns are debtors**. Model amounts are **EUR billions**.
+
+## Check the replication
+
+The paper's calibration gives 25 banking equilibria across 16 sovereign states, with multiplicity in eight states. The proportional repayment floor requires about EUR 60.6 billion of common capacity and pays nothing in equilibrium. The common recovery backstop removes multiplicity at 40% on the five-percentage-point grid and at 36% on the one-percentage-point grid; these grid results do not establish a continuous minimum.
+
+For the validation tests, also install:
+
+```r
+install.packages(c("dplyr", "tidyr", "quadprog", "readxl"))
+```
+
+After running `main.R`, run:
+
+```sh
 Rscript scripts/run_tests.R
 ```
 
-All inputs required for replication are included. Results go to `outputs/`; generated figures and tables go to `Figures/` and are copied to `manuscript/paper/Figures/`.
+The tests check accounting identities, data reconstruction, clearing calculations, repayment-floor thresholds and agreement with the paper's numerical results. They use the paper's default parameter values and include a reconstruction of the database. Test logs are in `outputs/tests/`.
 
-## Where to start reading
+## Data
 
-`main.R` runs six scripts in order. Each stage has its own workspace and reads the previous stage's saved results.
+`data/processed/` contains the CSV model inputs. The exposure register records each claim's source, instrument, allocation method and reconciliation. Missing bilateral positions are allocated within observed totals. Related-office loans are removed, while domestic claims between distinct banks are retained.
 
-| Script | Paper content | Main output |
-|---|---|---|
-| `scripts/01_calibrate.R` | Sections 2–3 and Appendix D: accounting, crisis parameters and reported sensitivities | `outputs/baseline.rds`, `outputs/sensitivities/` |
-| `scripts/02_equilibria.R` | Sections 4–6: repayment equilibria, household receipt gaps, creditor compensation and common recovery backstop | `outputs/equilibria.rds`, CSV summaries |
-| `scripts/03_floor_capacity.R` | Section 5 and Online Appendix: minimum capacity of the proportional repayment floor | `outputs/floor_capacity/` |
-| `scripts/04_bond_purchases.R` | Section 7: the six purchase cases in the paper | `outputs/bond_purchases/` |
-| `scripts/05_figures_tables.R` | Network charts, exposure and capital tables, backstop plots and dependence sensitivity | `Figures/` |
-| `scripts/06_sync_manuscript.R` | Copy the generated assets used by the paper | `manuscript/paper/Figures/` |
+`data/raw/` contains the source snapshots and reference extracts. The [data guide](data/README.md) gives definitions, units, transformations and source links; `data/source_manifest.csv` lists the supplied files and their checksums.
 
-The reusable mathematics is in `R/model/`: `clearing.R` enumerates bank default sets and guarantee regions; `floor_capacity.R` evaluates the capped-floor threshold; `bond_purchases.R` changes sovereign holdings into reserves. `financial_system.R` provides the independent bank-and-NBFI enumeration. `R/output/` contains the plotting and table routines. `R/data/` reconstructs the inputs from public snapshots.
-
-Matrix **rows are creditors and columns are debtors**. Model amounts are **EUR billions**. Countries are ordered DEU, FRA, ITA, ESP. Dates such as `2024-10-01` in source labels and figure filenames identify the fourth-quarter snapshot, whose reference date is 31 December 2024.
-
-## Calibration and checks
-
-Banks retain their full accounting equity. Loss headroom is a country proxy based on public overall capital and leverage requirements. Bank default destroys 10% of the remaining repayment estate (`lambda = 0.90`). Sovereign default pays 50% of contractual bond payments. Additional borrower-country loan losses are 1.8% for firms and 1.7% for households, applied once for the crisis episode. These rates are calculated from the ECB stress-test portfolio observations.
-
-The baseline has 25 banking equilibria across 16 sovereign states, with multiplicity in eight states. The proportional repayment floor requires about EUR 60.6 billion of common capacity and pays nothing in equilibrium. The common recovery backstop removes multiplicity at 40% on the five-percentage-point grid and at 36% on the supplementary one-percentage-point grid; neither grid establishes a continuous minimum.
-
-The tests check source/accounting identities, the full public-data rebuild, independent clearing calculations, analytic floor examples, polynomial derivatives and cutoff endpoints, bond-purchase accounting, and agreement with the numerical results reported in the paper. `tests/fixtures/paper_results.rds` contains the reference values used by these tests. Test logs are saved under `outputs/tests/`.
-
-## Data and rebuilding
-
-`data/processed/` contains the readable CSV inputs used by `main.R`. The exposure register records each claim's source, instrument, allocation method and reconciliation. Missing bilateral positions are allocated within observed totals; they are not treated as direct observations. Related-office loans are removed, while domestic claims between distinct banks are retained.
-
-`data/raw/` contains the corresponding public snapshots and reference extracts. The [data guide](data/README.md) lists the files, units, transformations and source links. `data/source_manifest.csv` records the supplied files and their checksums.
-
-To reconstruct the processed tables from the public snapshots, write a separate rebuild:
+To reconstruct the processed data from these snapshots:
 
 ```sh
 Rscript scripts/rebuild_data.R outputs/data_rebuild
 ```
 
-The tests compare this rebuild with `data/processed/`. Source files are left unchanged. Refreshing data from provider websites can change historical values; the supplied snapshots define the paper's vintage.
+This requires the additional packages listed above. The supplied inputs define the paper's data vintage; new downloads may contain provider revisions.
 
 ### Redistribution
 
@@ -70,15 +81,4 @@ The MIT licence in `LICENSE` applies to the replication code. Statistical data r
 | [IMF](https://www.imf.org/en/about/copyright-and-terms) | Public Portfolio Investment Positions, formerly CPIS. The statistical-data terms allow redistribution with attribution and identification of transformations. Commercial reuse requires checking the IMF's permission requirements. |
 | Authors' calibration inputs | `data/sovereign_spreads.csv` provides the four mean sovereign CDS spreads used to normalize bond payments. The [data guide](data/README.md) gives their definitions, sample period and units. |
 
-An optional ZIP archive of the code, supplied data and manuscript can be created with `Rscript scripts/package_replication.R`. The linked provider terms govern reuse of third-party data.
-
-## Manuscript
-
-Both documents compile from `manuscript/paper/`:
-
-```sh
-latexmk -cd -pdf manuscript/paper/main.tex
-latexmk -cd -pdf manuscript/paper/online_appendix.tex
-```
-
-Numerical replication does not require LaTeX. The source files for the paper and Online Appendix share the same figure directory and caption style.
+The linked provider terms govern reuse of third-party data.

@@ -57,7 +57,7 @@ apply_eurosystem_sovereign_purchases <- function(system, matrix, fraction, issue
   list(system = z, matrix = m, purchases = P, units = "EUR bn")
 }
 
-summarise_eurosystem_purchase <- function(purchase, solution, household_bank_claims) {
+summarise_eurosystem_purchase <- function(purchase, solution, household_bank_claims, rho = .2) {
   z <- purchase$system
   C <- length(z$countries)
   banks <- seq_len(C)
@@ -92,7 +92,7 @@ summarise_eurosystem_purchase <- function(purchase, solution, household_bank_cla
     capacity <- max(c(0, vapply(branches, function(v) v$budget, numeric(1))))
     maxima <- Filter(function(v) abs(v$budget - capacity) < 1e-07, branches)
     unique_at_capacity <- !any(vapply(maxima, function(v) v$attained, logical(1)))
-    expected_R[, s] <- as.numeric(R %*% equilibrium_weights(roots, 0.2))
+    expected_R[, s] <- as.numeric(R %*% equilibrium_weights(roots, rho))
     state_rows[[s]] <- data.frame(
       state = s, sovereign_defaults = k$labels[s], bank_defaults_at_par = sum(initial[
         ,

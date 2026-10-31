@@ -1,5 +1,12 @@
-# Manuscript sources
+# Paper and Online Appendix
 
-`main.tex` is the paper and `online_appendix.tex` is the Online Appendix. Both use `float_style.tex` and the local `Figures/` directory. Sections are in `Sections/` and `OnlineAppendix/`.
+The compiled documents are `main.pdf` and `online_appendix.pdf`. Their LaTeX sources are `main.tex` and `online_appendix.tex`.
 
-Run `Rscript main.R` from the repository root to regenerate the numerical assets. Then compile from the root with `latexmk -cd -pdf manuscript/paper/main.tex` and `latexmk -cd -pdf manuscript/paper/online_appendix.tex`.
+To rebuild the PDFs, first run `Rscript main.R` from the repository root, then:
+
+```sh
+latexmk -cd -pdf manuscript/paper/main.tex
+latexmk -cd -pdf manuscript/paper/online_appendix.tex
+```
+
+PDF compilation requires LaTeX and `latexmk`; they are not needed for the numerical replication.

@@ -2,18 +2,19 @@ source("R/setup.R")
 # Regenerate every active publication table from the calibration.
 baseline_path <- "outputs/baseline.rds"
 b <- readRDS(baseline_path)
+settings <- b$settings
 z <- b$system
 r <- b$result
 k <- repayment_resources(z)
-C <- 4L
-S <- 16L
-D <- z$debt[1:4]
+C <- length(z$countries)
+S <- length(r$roots)
+D <- z$debt[seq_len(C)]
 L <- colSums(z$inputs$interbank)
 preferred <- vapply(r$roots, function(a) which.max(vapply(a, function(t) sum(t$repayment), numeric(1))), integer(1))
-floors <- vapply(1:S, function(s) r$roots[[s]][[preferred[s]]]$repayment, numeric(4))
+floors <- vapply(1:S, function(s) r$roots[[s]][[preferred[s]]]$repayment, numeric(C))
 floor_policy <- solve_clearing(z, "floor", floor = floors)
 stopifnot(all(floor_policy$by_state$num_equilibria == 1), max(floor_policy$by_bank$payment) < 1e-8)
-zero_floor <- solve_clearing(z, "floor", floor = matrix(0, 4, 16))
+zero_floor <- solve_clearing(z, "floor", floor = matrix(0, C, S))
 stopifnot(identical(zero_floor$by_state$num_equilibria, r$by_state$num_equilibria))
 household_bank_claims <- b$matrix[paste0(z$countries, ":S14"), paste0(z$countries, ":S122"), drop = FALSE]
 cons <- read.csv("data/processed/household_consumption.csv")
@@ -103,7 +104,7 @@ fmt_hh <- function(v, pct) {
   ))
 }
 table_tex(
-  "Figures/household_consumption_changes_table.tex", "Sovereign defaults & Equilibria & DEU & FRA & ITA & ESP & Total",
+  "Figures/household_consumption_changes_table.tex", paste(c("Sovereign defaults", "Equilibria", z$countries, "Total"), collapse = " & "),
   vapply(1:S, function(s) {
     paste(c(
       k$labels[s], household_results$num_equilibria[s],
@@ -114,14 +115,14 @@ table_tex(
     ), collapse = " & ")
   }, character(1)), "lrrrrrr"
 )
-# Section 6: common recovery backstop, in five-percentage-point steps.
+# Section 6: common recovery backstop over the configured coverage grid.
 policies <- list()
 gridrows <- list()
-for (eta in seq(0, 1, by = .05)) {
-  name <- sprintf("common_%03d", round(eta * 100))
+for (eta in settings$coverage_grid) {
+  name <- paste0("common_", if (eta == 0) "000" else formatC(100 * eta, format = "fg", digits = 12, width = 3, flag = "0"))
   y <- solve_clearing(z, "recovery", eta = eta)
   policies[[name]] <- y
-  for (rho in c(.1, .2, .3)) {
+  for (rho in settings$rho_values) {
     d <- summarise_backstop(y, rho)
     d$rule <- "Common recovery rule"
     gridrows[[length(gridrows) + 1L]] <- d
@@ -129,14 +130,19 @@ for (eta in seq(0, 1, by = .05)) {
 }
 grid <- do.call(rbind, gridrows)
 write.csv(grid, "outputs/recovery_backstop.csv", row.names = FALSE)
-g <- grid[abs(grid$adverse_equilibrium_probability - .2) < 1e-10 & grid$rule == "Common recovery rule", ]
-eta_first <- min(g$backstop_coverage_eta[g$multiple_equilibrium_states == 0])
+g <- grid[abs(grid$adverse_equilibrium_probability - settings$rho) < 1e-10 & grid$rule == "Common recovery rule", ]
+eta_first <- if (any(g$multiple_equilibrium_states == 0)) min(g$backstop_coverage_eta[g$multiple_equilibrium_states == 0]) else NA_real_
 rob <- b$robustness
-select_names <- c("ISA_lambda0900", "half_ISA_lambda0900", "baseline", "OCR_q25_lambda0900", "OCR_q75_lambda0900", "minimum_median_lambda0875", "sovereign_haircut45", "sovereign_haircut55", "nbfi_half")
+select_names <- c("ISA", "half_ISA", "baseline", "OCR_q25", "OCR_q75", "minimum_requirements", "sovereign_recovery_high", "sovereign_recovery_low", "nbfi_reduced")
 rob <- rob[match(select_names, rob$name), ]
 labels <- c(
-  "ISA headroom, $\\lambda=.90$", "Half ISA headroom, full equity", "Public median OCR (baseline)",
-  "Lower-quartile OCR", "Upper-quartile OCR", "Minimum requirements, $\\lambda=.875$", "Sovereign recovery 55\\%", "Sovereign recovery 45\\%", "NBFI availability 50\\%"
+  sprintf("ISA headroom, $\\lambda=%s$", sub("^0", "", sprintf("%.2f", settings$bank_lambda))),
+  "Half ISA headroom, full equity", "Public median OCR (baseline)",
+  "Lower-quartile OCR", "Upper-quartile OCR",
+  sprintf("Minimum requirements, $\\lambda=%s$", sub("^0", "", sprintf("%.3f", settings$sensitivity$minimum_requirement_lambda))),
+  sprintf("Sovereign recovery %.0f\\%%", 100 * settings$sensitivity$sovereign_recoveries[["high"]]),
+  sprintf("Sovereign recovery %.0f\\%%", 100 * settings$sensitivity$sovereign_recoveries[["low"]]),
+  sprintf("NBFI availability %.0f\\%%", 100 * settings$sensitivity$nbfi_buffer_fraction)
 )
 table_tex(
   "Figures/OCR_robustness_table.tex", "Specification & Default states & Bank--state events & Multiple states",
@@ -174,10 +180,10 @@ for (e in seq_along(r$roots[[s]])) {
 writeLines(c("\\begin{tabular*}{\\textwidth}{@{\\extracolsep{\\fill}}llll@{}}", boxes, "\\end{tabular*}"), "Figures/french_default_balance_sheets.tex")
 pi <- align_country_vector(z$params$pi_G, z$countries, "pi_G")
 prob <- apply(k$delta, 1, function(d) prod(ifelse(d == 1, pi, 1 - pi)))
-expected <- rep(0, 4)
-for (s in 1:S) expected <- expected + prob[s] * do.call(cbind, lapply(r$roots[[s]], `[[`, "repayment")) %*% equilibrium_weights(r$roots[[s]], .2)
+expected <- rep(0, C)
+for (s in 1:S) expected <- expected + prob[s] * do.call(cbind, lapply(r$roots[[s]], `[[`, "repayment")) %*% equilibrium_weights(r$roots[[s]], settings$rho)
 statistics <- list(
-  baseline = "Public OCR/full equity/lambda .90", units = "EUR bn",
+  baseline = sprintf("Public OCR/full equity/lambda %.2f", settings$bank_lambda), units = "EUR bn",
   multiple_states = sum(dispersion$num_equilibria > 1), total_equilibria = sum(dispersion$num_equilibria),
   default_states_at_par = sum(b$reference$by_state$bank_defaults_at_par > 0),
   max_compensation_eur_bn = max(compensation$banks_only_max_eur_bn), max_compensation_pct_debt = max(compensation$max_compensation_pct_bank_debt),

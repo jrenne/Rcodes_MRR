@@ -1,7 +1,7 @@
 # Bank-to-sovereign and bank-to-bank claims in the baseline calibration.
 # Edge widths use creditor banks' reported total assets, not clearing debt.
 z <- readRDS("outputs/equilibria.rds")$baseline$system$inputs
-countries <- c("DEU", "FRA", "ITA", "ESP")
+countries <- settings$countries
 stopifnot(
   identical(as.character(z$accounting$country), countries),
   all(is.finite(z$accounting$reported_assets)),
