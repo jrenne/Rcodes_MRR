@@ -1,5 +1,5 @@
-# Rebuild the main-text capital table from the audited public bank sample
-# and the adopted resident equity/headroom bridge. Ratios are bank medians;
+# Rebuild the capital table from public bank disclosures and the
+# country transfer from supervisory capital to resident equity. Ratios are bank medians;
 # amounts and headroom/equity use the resident model blocks.
 capital_summary <- local({
   banks <- read.csv("data/processed/bank_capital_sample.csv")
@@ -38,4 +38,4 @@ capital_summary <- local({
   ), "Figures/capital_headroom_summary.tex")
   summary
 })
-cat("Capital/headroom summary regenerated from audited country inputs.\n")
+cat("Capital/headroom summary generated from country inputs.\n")

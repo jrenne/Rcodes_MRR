@@ -10,7 +10,7 @@ Before the sovereign state is realized, the Eurosystem purchases a specified fra
  x_{E,G_g}'=x_{E,G_g}+\sum_iP_{ig},\qquad
  x_{B_i,E}'=x_{B_i,E}+\sum_gP_{ig}.
 \]
-The first identity is bilateral; the second applies once to each issuer and the third once to each bank. Bank sales create an equal safe reserve claim on the Eurosystem, consistent with the balance-sheet mechanics described in \citet{ECBReserves2021}, Box 3. Government debt columns and bank asset totals are unchanged. Eurosystem assets and liabilities both increase by $\sum_{ig}P_{ig}$. The source matrix is preserved; counterfactual matrices are saved separately.
+The first identity is bilateral; the second applies once to each issuer and the third once to each bank. Bank sales create an equal safe reserve claim on the Eurosystem, consistent with the balance-sheet mechanics described in \citet{ECBReserves2021}, Box 3. Government debt columns and bank asset totals are unchanged. Eurosystem assets and liabilities both increase by $\sum_{ig}P_{ig}$.
 
 Let $\mathbf{b}=(b_i)$, $\mathbf{D}=(D_i)$ and $\mathbf{E}=(E_i)$ collect reference resources, clearing debts and accounting equity; $\mathbf1$ is the vector of ones. In the financial system, $\mathbf{N}'=\mathbf{N}-\mathbf{P}$ and $\mathbf{b}'=\mathbf{b}+\mathbf{P}\mathbf1$. All bank debt, accounting equity, headroom, distress cutoffs, interbank claims and private-loan impairments retain their baseline values. In particular,
 \[
@@ -28,5 +28,4 @@ This measure is negative in survival states when sovereign receipts exceed reser
 \paragraph{Clearing and checks.}
 For each purchase matrix, all bank default sets are re-enumerated in each of the sixteen sovereign states. The unchanged NBFI buffer bound continues to imply full debt repayment. Independent eight-node bank--NBFI enumeration verifies all states for purchases of half of all issuer holdings, half of French holdings and three quarters of Italian and Spanish holdings. The zero-purchase case reproduces every baseline equilibrium. Accounting checks verify government debt stocks, bank asset totals, full equity and the equality of direct resource gains and Eurosystem cash exposure. Critical floor capacities are recomputed for the post-purchase network using the same proportional rule, with endpoint checks. The selected published capacities are attained minima; no optimization over purchase composition or quantity is claimed.
 
-The R-only driver \texttt{main.R} reproduces the experiment, its publication table and validation. Saved results include state and bank outcomes, counterfactual matrices and validation records. The frozen calibration and underlying exposure register are not overwritten.
 \FloatBarrier

@@ -150,8 +150,8 @@ stopifnot(
   all(colSums(input_asym$interbank) / input_asym$debt < 1),
   all(solve_clearing(asym)$by_state$num_equilibria >= 1)
 )
-# NBFI solvency is an enforced reduction condition, not an assumption silently
-# imposed on a system whose NBFIs actually default in a sovereign crisis.
+# The reduced solver must reject systems whose NBFI buffers do not support
+# full repayment in every sovereign state.
 m_bad <- m
 m_bad[3, 5] <- 40
 bad_nbfi <- build_bank_nbfi_system(ref, m_bad, data.frame(

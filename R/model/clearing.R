@@ -16,8 +16,7 @@ solve_clearing <- function(system, kind = c("none", "floor", "recovery"), floor 
     all(colSums(B) / D < 1), all(z$lambda[C + seq_len(C)] == 1), length(eta) == 1,
     eta >= 0, eta <= 1
   )
-  # This reduced solver fixes NBFIs at par. Certify that reduction rather than silently
-  # applying it to systems with insufficient NBFI buffers.
+  # The reduced solver fixes NBFIs at par and requires sufficient NBFI buffers.
   banks <- seq_len(C)
   nbfi <- C + banks
   lower_B <- pmin(sweep(k$constant[banks, , drop = FALSE], 1, lam / D, "*"), 1)

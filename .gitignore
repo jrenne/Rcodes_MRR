@@ -7,7 +7,7 @@ tmp/
 *.log
 
 
-# Local market workbook: redistribution rights are unverified.
+# Local data and generated outputs.
 private_data/
 replication_package.zip
 /outputs/

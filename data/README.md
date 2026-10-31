@@ -17,7 +17,7 @@ The reference date is 31 December 2024. The four banking systems are resident of
 | `household_consumption.csv` | Observed 2024 household/NPISH consumption; EUR million, converted to EUR bn by the reporting script. |
 | `stress_loss_rates.csv` | Exposure-weighted adverse-minus-baseline loan impairments, rounded to 1.8% for firms and 1.7% for households. Rates cover a three-year episode and are applied once. |
 
-`sovereign_spreads.csv` contains four calibration values: full-sample mean five-year sovereign CDS spreads, December 2007–November 2025, in basis points. They are approximately 14.8, 27.9, 102.5 and 83.9 for DEU, FRA, ITA and ESP. These are pricing inputs, not end-2024 default forecasts. With spread `s` in decimal units and a 50% sovereign loss, the paper uses `pi = s / (0.5 * (1 + s))`. This makes the one-period expected contractual bond payment equal to one. The full market workbook is excluded from redistribution.
+`sovereign_spreads.csv` contains four calibration values: mean five-year sovereign credit default swap (CDS) spreads, December 2007–November 2025, in basis points. They are approximately 14.8, 27.9, 102.5 and 83.9 for DEU, FRA, ITA and ESP. These are pricing inputs, not end-2024 default forecasts. With spread `s` in decimal units and a 50% sovereign loss, the paper uses `pi = s / (0.5 * (1 + s))`. This makes the one-period expected contractual bond payment equal to one.
 
 ## Public source snapshots
 
@@ -31,7 +31,7 @@ The reference date is 31 December 2024. The four banking systems are resident of
 - `raw/reference/ecb_closing_fx_2024.csv`: [ECB foreign exchange reference rates](https://data.ecb.europa.eu/data/datasets/EXR), including the year-end USD/EUR conversion (1.0389).
 - `raw/reference/bsi_capital_components.csv`: public ECB BSI capital components, including provisions. Only December observations are used; monthly stocks are never added across months.
 - `raw/reference/household_consumption.json`: [Eurostat national accounts](https://ec.europa.eu/eurostat/databrowser/view/nama_10_gdp/default/table?lang=en), `P31_S14_S15`, current prices, EUR million, 2024.
-- `raw/reference/stress_portfolios.csv`: four portfolio observations transcribed or digitised from [ECB, 2025 stress test results](https://www.bankingsupervision.europa.eu/ecb/pub/pdf/ssm.Report_2025_Stress_Test_202508.en.pdf), Chart 3.8, printed page 28. Rates and exposure weights are pooled by borrower sector. The data retain the original chart/image coordinates for traceability; the PDF itself is not needed or redistributed.
+- `raw/reference/stress_portfolios.csv`: four portfolio observations transcribed or digitised from [ECB, 2025 stress test results](https://www.bankingsupervision.europa.eu/ecb/pub/pdf/ssm.Report_2025_Stress_Test_202508.en.pdf), Chart 3.8, printed page 28. Rates and exposure weights are pooled by borrower sector. Chart image coordinates document the digitisation.
 
 ECB and IMF exposure snapshots were acquired on 21 October 2026. Reference extracts retain the earlier source vintage used in the paper; the included source manifest identifies the actual supplied files. A new provider download can reflect revisions.
 
@@ -39,4 +39,4 @@ ECB and IMF exposure snapshots were acquired on 21 October 2026. Reference extra
 
 The authors convert units/currencies, select disjoint sectors, allocate missing bilateral positions, reconcile holder/issuer totals, remove related-office loans, and pool capital and stress-loss measures. Processed data and model results are authors' calculations based on the cited sources; they are not official ECB, Eurostat or IMF estimates. These institutions do not endorse the calculations. Eurostat is not responsible for the transformations or conclusions.
 
-The root [README](../README.md#redistribution) gives the source-specific redistribution conditions. Public statistical data retain their provider terms and attribution; they are not relicensed under the code's MIT licence. `private_data/` is excluded from any distributable archive. Only four reported sovereign spread calibration inputs are supplied in its place.
+The root [README](../README.md#redistribution) gives the source-specific redistribution conditions. Public statistical data retain their provider terms and attribution; they are not relicensed under the code's MIT licence. The supplied sovereign spread averages are the calibration inputs used by the replication scripts.

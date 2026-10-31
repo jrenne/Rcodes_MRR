@@ -1,4 +1,4 @@
-# Bank-to-sovereign and bank-to-bank claims in the adopted calibration.
+# Bank-to-sovereign and bank-to-bank claims in the baseline calibration.
 # Edge widths use creditor banks' reported total assets, not clearing debt.
 z <- readRDS("outputs/equilibria.rds")$baseline$system$inputs
 countries <- c("DEU", "FRA", "ITA", "ESP")
@@ -170,7 +170,7 @@ for (i in 1:4) {
   text(xy[1], xy[2], paste(countries[i], "sovereign", sep = "\n"),
     cex = .88, col = cols[i], font = 2
   )
-  # Direct domestic sovereign exposures can be read without a separate table.
+  # Label domestic sovereign exposures as percentages of bank assets.
   mid <- (banks[i, ] + govts[i, ]) / 2
   text(mid[1], mid[2] + if (i <= 2L) -.19 else .19,
     sprintf("%.1f%%", 100 * shares[i, i]),

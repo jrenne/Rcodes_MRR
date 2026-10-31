@@ -104,28 +104,12 @@
 \usepackage{multirow} % Required for multirows
 \usepackage{lscape}
 \usepackage{pdflscape}
-%\usepackage{gensymb}
 \usepackage{adjustbox}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%====================================
-%====================================
-%=== Type of Appendix ===============
-\def\isSupplementary{0}
-%====================================
-%====================================
-%====================================
-
-
-%====================================
-%====================================
-%=== Type of Appendix ===============
+% Set to 1 to suppress the author information for anonymous review.
 \def\isAnonymous{0}
-%====================================
-%====================================
-%====================================
-
 
 \usepackage{mdframed}
 
@@ -145,22 +129,22 @@
 \if\isAnonymous0
 
 \author[insta]{Beno\^it Mojon}
-\affiliation[insta]{organization={Bank for International Settlements},%Department and Organization
+\affiliation[insta]{organization={Bank for International Settlements},
             city={Basel},
             postcode={CH-4002},
             country={Switzerland}}
 
 \author[instb]{Xavier Ragot}
-\affiliation[instb]{organization={Sciences Po, CNRS, OFCE},%Department and Organization
+\affiliation[instb]{organization={Sciences Po, CNRS, OFCE},
             city={Paris},
             postcode={75007},
             country={France}}
 
 \author[instc]{Jean-Paul Renne}
-\affiliation[instc]{organization={University of Lausanne},%Department and Organization
+\affiliation[instc]{organization={University of Lausanne},
             addressline={CH-1015 Lausanne},
             country={Switzerland}}
-\tnotetext[t1]{We are grateful to R{\'e}gis Breton, Bryan Hardy, Swapan-Kumar Pradhan and Goetz von Peter for useful comments and help. All errors are ours. The views expressed in this paper are those of the authors and do not necessarily reflect the views of the Bank for International Settlements.}
+\tnotetext[t1]{We are grateful to R{\'e}gis Breton, Bryan Hardy, Swapan-Kumar Pradhan and Goetz von Peter for useful comments and help. All errors are ours. The views expressed in this paper are those of the authors and do not necessarily reflect the views of the Bank for International Settlements. The replication package is available at \url{https://github.com/jrenne/Rcodes_MRR}.}
 
 \fi
 
@@ -171,43 +155,11 @@ We study how sovereign default spreads through financial links across countries 
 
 
 \begin{keyword}
-%% keywords here, in the form: keyword \sep keyword
 Sovereign risk \sep Financial networks \sep Bank default \sep Contingent public support
-%% JEL codes here, in the form: \JEL code \sep code
 \JEL G01 \sep G21 \sep H63
 \end{keyword}
 
 \end{frontmatter}
-
-% To have lines numbers:
-%\linenumbers
-
-
-% \newpage
-
-
-% \begin{center}
-% \begin{large}
-% Conflict-of-interest disclosure statement
-% \end{large}
-% \end{center}
-
-% \vspace{2cm}
-
-% Jean-Paul Renne
-% \vspace{.5cm}
-
-% I have nothing to disclose.
-
-% \vspace{2cm}
-
-% Kevin Pallara
-% \vspace{.5cm}
-
-% I have nothing to disclose.
-
-
-% \newpage
 
 \setstretch{1.5}
 
@@ -337,7 +289,6 @@ Results depend on distress thresholds, default costs and gross domestic interban
 
 \setcounter{subsection}{0}
 \setcounter{equation}{0}
-%\renewcommand{\thesection}{O.\arabic{section}}
 
 \appendix
 \counterwithin{figure}{section}

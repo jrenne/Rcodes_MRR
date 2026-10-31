@@ -1,4 +1,4 @@
-# The cached Eurostat domestic NBFI layer omits unpublished S123 holders.  Add
+# The Eurostat domestic NBFI source layer omits unpublished S123 holders. Add
 # domestic MMF debt securities from SHSS/BSI; foreign NBFI CPIS positions already
 # combine financial subsectors and must not receive an MMF top-up.
 mmf_coverage <- list()
@@ -135,8 +135,8 @@ for (i in seq_len(nrow(cpis_extra))) {
     "CPIS sector prior projected to country-pair total and reconciled holder/issuer margins; missing holder sector remains explicit"
   )
 }
-# Published domestic government and central-bank portfolios, previously omitted or
-# allocated from an aggregate. Non-overlapping counterpart sector hierarchy.
+# Allocate published domestic government and central-bank portfolios using
+# non-overlapping counterpart sectors.
 government_security_rows <- raw_stocks %>%
   filter(finpos == "ASS", na_item == "F3", sector %in% c("S13", "S121"))
 for (c in MAIN_RES) {

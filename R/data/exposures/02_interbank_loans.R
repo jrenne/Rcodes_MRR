@@ -138,8 +138,7 @@ for (c in EA_RES) {
     interbank_allocation_prior[c, j] <- p * z$loan_mfi_scale
   }
 }
-# Unpublished country links use a borrower-size prior, not an epsilon that would
-# impose an economically arbitrary near-uniform quadratic penalty.
+# Unpublished country links use foreign bank deposit margins as borrower-size weights.
 missing_prior <- !is.finite(interbank_allocation_prior)
 gravity <- outer(loan_asset_margins, C) / sum(C)
 interbank_allocation_prior[missing_prior] <- gravity[missing_prior]

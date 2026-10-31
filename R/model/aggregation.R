@@ -1,4 +1,4 @@
-# Group counterparties for model exposition and figures. The audited reporting matrix
+# Group counterparties for model exposition and figures. The 24-account reporting matrix
 # and instrument-level register retain their original classifications.
 aggregate_passive_counterparties <- function(reporting_matrix) {
   m <- reporting_matrix

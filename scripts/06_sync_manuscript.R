@@ -1,4 +1,4 @@
-# Copy the generated assets actually used by the current paper.
+# Copy the generated figures and tables into the manuscript.
 assets <- c(
   "figure_network_2024-10-01.pdf", "active_source_matrix_2024-10-01.pdf",
   "bank_exposure_network.pdf", "bank_exposure_network_data.csv", "bank_exposure_table.tex",

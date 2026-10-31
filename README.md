@@ -1,7 +1,7 @@
 # Sovereign Risk Spillovers across Countries and Sectors
 
 Replication code for Benoît Mojon, Xavier Ragot and Jean-Paul Renne.
-Run all commands from the repository root. The current paper uses public residence-based data for Germany, France, Italy and Spain at end-2024.
+Run all commands from the repository root. The paper uses public residence-based data for Germany, France, Italy and Spain at end-2024.
 
 ## Run the paper
 
@@ -18,7 +18,7 @@ Rscript main.R
 Rscript scripts/run_tests.R
 ```
 
-The supplied inputs are sufficient: no download, CDS workbook, Python or C++ compiler is needed. Results go to `outputs/`; generated figures and tables go to `Figures/` and are copied into the local manuscript. `main.R` does not change an external Overleaf project.
+All inputs required for replication are included. Results go to `outputs/`; generated figures and tables go to `Figures/` and are copied to `manuscript/paper/Figures/`.
 
 ## Where to start reading
 
@@ -43,7 +43,7 @@ Banks retain their full accounting equity. Loss headroom is a country proxy base
 
 The baseline has 25 banking equilibria across 16 sovereign states, with multiplicity in eight states. The proportional repayment floor requires about EUR 60.6 billion of common capacity and pays nothing in equilibrium. The common recovery backstop removes multiplicity at 40% on the five-percentage-point grid and at 36% on the supplementary one-percentage-point grid; neither grid establishes a continuous minimum.
 
-The tests check source/accounting identities, the full public-data rebuild, independent clearing calculations, analytic floor examples, polynomial derivatives and cutoff endpoints, bond-purchase accounting, and numerical agreement with the paper before the code cleanup. `tests/fixtures/paper_results.rds` contains that compact numerical reference; it contains no original market time series. Test logs are saved under `outputs/tests/`.
+The tests check source/accounting identities, the full public-data rebuild, independent clearing calculations, analytic floor examples, polynomial derivatives and cutoff endpoints, bond-purchase accounting, and agreement with the numerical results reported in the paper. `tests/fixtures/paper_results.rds` contains the reference values used by these tests. Test logs are saved under `outputs/tests/`.
 
 ## Data and rebuilding
 
@@ -61,18 +61,16 @@ The tests compare this rebuild with `data/processed/`. Source files are left unc
 
 ### Redistribution
 
-The public statistical inputs can accompany a **non-commercial research replication package**, subject to the source conditions below. The MIT licence in `LICENSE` applies to our code, not to third-party data.
+The MIT licence in `LICENSE` applies to the replication code. Statistical data retain the source-specific reuse conditions listed below.
 
 | Source | Included data and reuse conditions |
 |---|---|
-| [ECB](https://www.ecb.europa.eu/services/using-our-site/disclaimer/html/index.en.html) and [ECB Banking Supervision](https://www.bankingsupervision.europa.eu/services/disclaimer/html/index.en.html) | Bank balance sheets, securities holdings, exchange rates and public capital disclosures. Reuse requires source attribution, accurate reproduction and identification of modifications. The package includes statistical material; separately authored publications are not redistributed. |
+| [ECB](https://www.ecb.europa.eu/services/using-our-site/disclaimer/html/index.en.html) and [ECB Banking Supervision](https://www.bankingsupervision.europa.eu/services/disclaimer/html/index.en.html) | Bank balance sheets, securities holdings, exchange rates and public capital disclosures. Reuse requires source attribution, accurate reproduction and identification of modifications. |
 | [Eurostat](https://ec.europa.eu/eurostat/help/copyright-notice) | Financial accounts, government debt and household consumption. Reuse is allowed with attribution. Our allocations, conversions and pooling are identified as authors' calculations; Eurostat is not responsible for them. |
 | [IMF](https://www.imf.org/en/about/copyright-and-terms) | Public Portfolio Investment Positions, formerly CPIS. The statistical-data terms allow redistribution with attribution and identification of transformations. Commercial reuse requires checking the IMF's permission requirements. |
-| Authors' calibration inputs | `data/sovereign_spreads.csv` contains only the four average spreads reported in the paper, at the precision used in computation. They determine the one-period sovereign payoff normalization; they are not a redistributed CDS history. |
+| Authors' calibration inputs | `data/sovereign_spreads.csv` provides the four mean sovereign CDS spreads used to normalize bond payments. The [data guide](data/README.md) gives their definitions, sample period and units. |
 
-The original `MRR_CDS.xlsx` workbook has **unverified redistribution rights**. It is kept separately in the authors' private working files and is not included in this repository or the replication archive. It is not read by the replication or data-rebuild scripts. Its source observations and other sheets are not redistributed.
-
-Use `Rscript scripts/package_replication.R` to create `replication_package.zip` from the listed code, public inputs and manuscript files. This excludes `private_data/`, Git history, old backups and generated numerical outputs. This public repository has a clean history containing only the distributable files; the earlier private working history is not included. Provider terms were checked on 31 October 2026; the links above govern reuse.
+An optional ZIP archive of the code, supplied data and manuscript can be created with `Rscript scripts/package_replication.R`. The linked provider terms govern reuse of third-party data.
 
 ## Manuscript
 

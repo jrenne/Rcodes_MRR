@@ -39,7 +39,7 @@ stopifnot(
   all(full_solution$by_node$repayment[full_solution$by_node$sector == "nbfi"] == 1)
 )
 
-# Appendix D: retain the reported alternatives and the 75 local combinations.
+# Appendix D: compute the reported sensitivities and 75 local combinations.
 make_sensitivity <- function(
   name, headroom = system$headroom[1:4], lambda = .9, haircut = .5,
   firm_rate = loss_rates[["firms"]], household_rate = loss_rates[["households"]], nbfi_factor = 1

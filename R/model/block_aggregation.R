@@ -1,6 +1,5 @@
 # Exact symmetric disaggregation, for an aggregation diagnostic only.  Off-diagonal
 # within-sector claims are between distinct institutions; no institution owes itself.
-# No empirical heterogeneity or new model is fitted.
 disaggregate_symmetric_blocks <- function(system, counts = rep(2L, length(system$debt))) {
   z <- system
   n <- length(z$debt)

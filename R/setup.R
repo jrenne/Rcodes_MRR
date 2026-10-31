@@ -1,4 +1,4 @@
-# Run scripts from the project root. Dependencies for the numerical results are small.
+# Load the numerical model and reporting helpers from the repository root.
 if (!file.exists("data/processed/exposure_matrix.csv")) stop("Run from the repository root.")
 for (package in "jsonlite") {
   if (!requireNamespace(package, quietly = TRUE)) stop("Install the R package ", package, ".")

@@ -1,4 +1,4 @@
-# Numerical references were saved from the paper before the code cleanup.
+# Compare computed results with the reference values reported in the paper.
 source("R/setup.R")
 reference <- readRDS("tests/fixtures/paper_results.rds")
 x <- readRDS("outputs/equilibria.rds")
@@ -12,9 +12,7 @@ for (s in 1:16) {
   }
 }
 compare <- function(a, b) {
-  names(b) <- sub("initial_bank_default_states", "default_states_at_par", names(b), fixed = TRUE)
-  names(b) <- sub("initial_bank_events", "bank_defaults_at_par", names(b), fixed = TRUE)
-  stopifnot(nrow(a) == nrow(b))
+  stopifnot(nrow(a) == nrow(b), setequal(names(a), names(b)))
   for (name in intersect(names(a), names(b))) {
     if (is.numeric(a[[name]])) {
       stopifnot(max(abs(a[[name]] - b[[name]])) < 1e-8)
