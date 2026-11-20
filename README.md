@@ -1,42 +1,34 @@
 # Sovereign Risk Spillovers across Countries and Sectors
 
-Replication code and data for *Sovereign Risk Spillovers across Countries and Sectors* by Benoît Mojon, Xavier Ragot and Jean-Paul Renne. The data cover Germany, France, Italy and Spain at the end of 2024.
+Replication code and public-source data for *Sovereign Risk Spillovers across Countries and Sectors* by [Benoît Mojon](https://www.bis.org/author/benoit-mojon), [Xavier Ragot](https://xavier-ragot.fr/) and [Jean-Paul Renne](https://www.jprenne.com/). The network covers Germany, France, Italy and Spain at 31 December 2024. Results are model-based scenario calculations conditional on the reconstructed exposures and crisis assumptions.
 
 ## Reproduce the results
 
-Use R from the repository root, or open `Rcodes_MRR.Rproj` in RStudio. The calculations require `jsonlite` and have been tested with R 4.5.1:
+Run from the repository root, or open `Rcodes_MRR.Rproj` in RStudio. R 4.5.1 was used for validation. The main calculations require only `jsonlite`:
 
 ```r
 install.packages("jsonlite")
 ```
 
-Run:
-
 ```sh
 Rscript main.R
 ```
 
-All required inputs are included. Numerical results are written to `outputs/`, and figures and tables to `Figures/`.
+All inputs are included; no download is needed. The run writes numerical results to `outputs/` and tables and figures to `Figures/`. A full run from the supplied inputs took about 22 seconds in the validation environment; reconstruction, tests and PDF compilation are separate.
 
-**Runtime:** a complete run took approximately **11 seconds** on an Apple M4 Mac with 24 GB RAM and R 4.5.1. This includes calibration, equilibria, sensitivities, policy experiments, figures and tables, starting from the supplied processed data. It excludes package installation, data reconstruction and validation tests. Allow roughly a minute on a recent computer; the actual time depends on the hardware.
+## Settings and files
 
-## Parameters and code
+The `settings` block in `main.R` specifies default costs, sovereign recovery, private-loan losses, equilibrium-selection weights, sensitivities and purchase schemes. The supplied data and publication tables use the fixed country order DEU, FRA, ITA, ESP.
 
-The `settings` block at the beginning of `main.R` defines default costs, sovereign recovery, private-loan loss rates, equilibrium-selection weights, coverage grids, sensitivity ranges and bond-purchase experiments. Edit this block to change the exercise. Country coverage, country order (DEU, FRA, ITA, ESP) and the reference date are tied to the supplied data.
-
-The calculation scripts follow the paper:
-
-| Script | Calculations | Results |
+| Script | Calculations | Main outputs |
 |---|---|---|
-| `scripts/01_calibrate.R` | Accounting, crisis parameters and sensitivities (Sections 2–3 and Appendix D) | `outputs/baseline.rds`, `outputs/sensitivities/` |
-| `scripts/02_equilibria.R` | Equilibria, household receipt gaps, compensation and recovery backstop (Sections 4–6) | `outputs/equilibria.rds`, CSV summaries |
-| `scripts/03_floor_capacity.R` | Minimum repayment-floor capacity (Section 5 and Online Appendix) | `outputs/floor_capacity/` |
-| `scripts/04_bond_purchases.R` | Sovereign-bond purchase experiments (Section 7) | `outputs/bond_purchases/` |
-| `scripts/05_figures_tables.R` | Figures, exposure and capital tables, and dependence sensitivity | `Figures/` |
+| `scripts/01_calibrate.R` | Accounting, equilibrium baseline and crisis sensitivities | `outputs/baseline.rds`, `outputs/sensitivities/` |
+| `scripts/02_equilibria.R` | Equilibrium losses, compensation and recovery backstop | `outputs/equilibria.rds`, loss and policy CSVs |
+| `scripts/03_floor_capacity.R` | Minimum capacity and endpoint tests | `outputs/floor_capacity/` |
+| `scripts/04_bond_purchases.R` | Selected sovereign-bond purchase experiments | `outputs/bond_purchases/` |
+| `scripts/05_figures_tables.R` | Publication assets, dependence sensitivity and 606 purchase counterfactuals | `Figures/`, purchase and sensitivity CSVs |
 
-`R/model/` contains the clearing and policy calculations, `R/output/` produces the figures and tables, and `R/data/` reconstructs the input data.
-
-Matrix **rows are creditors and columns are debtors**. Model amounts are **EUR billions**.
+`R/model/` contains the clearing and policy calculations, `R/output/` produces publication assets, and `R/data/` reconstructs the inputs. Matrix rows are **creditors**, columns are **debtors**; model amounts are **EUR billions**.
 
 ## Validation
 
@@ -56,19 +48,17 @@ Rscript scripts/run_tests.R
 
 A summary and individual test logs are saved in `outputs/tests/`.
 
-## Data
+## Data and optional reconstruction
 
-`data/processed/` contains the CSV model inputs. The exposure register records each claim's source, instrument, allocation method and reconciliation. Missing bilateral positions are allocated within observed totals. Related-office loans are removed, while domestic claims between distinct banks are retained.
+`data/processed/` contains the model inputs. The exposure register identifies sources, instruments, bilateral allocations and reconciliation adjustments. Identified related-office loans are removed; gross claims between distinct domestic banks are retained. The [data guide](data/README.md) documents coverage, units and transformations. `data/source_manifest.csv` records the supplied raw files and their checksums.
 
-`data/raw/` contains the source snapshots and reference extracts. The [data guide](data/README.md) gives definitions, units, transformations and source links; `data/source_manifest.csv` lists the supplied files and their checksums.
-
-To reconstruct the processed data from these snapshots:
+To reconstruct the inputs from the supplied source snapshots without overwriting them:
 
 ```sh
 Rscript scripts/rebuild_data.R outputs/data_rebuild
 ```
 
-This requires the additional packages listed above. The supplied inputs define the paper's data vintage; new downloads may contain provider revisions.
+The validation suite compares this reconstruction with the supplied inputs. The source snapshots define the paper's data vintage; fresh provider downloads may contain revisions.
 
 ### Redistribution
 

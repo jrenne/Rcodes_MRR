@@ -125,7 +125,7 @@ buffer_results <- do.call(rbind, lapply(settings$sensitivity$additional_buffer_f
 net <- system
 removed <- diag(net$inputs$interbank)
 diag(net$inputs$interbank) <- 0
-diag(net$claims[banks_index, 1:4]) <- 0
+diag(net$claims[banks_index, banks_index]) <- 0
 net$inputs$debt <- net$inputs$debt - removed
 net$debt[banks_index] <- net$debt[banks_index] - removed
 net$cutoff <- pmin(net$debt + net$equity - net$headroom, net$debt / net$lambda)

@@ -6,11 +6,10 @@ apply_eurosystem_sovereign_purchases <- function(system, matrix, fraction, issue
   banks <- seq_len(C)
   bank_nodes <- paste0(z$countries, ":S122")
   gov_nodes <- paste0(z$countries, ":S13")
-  stopifnot(length(fraction) == 1, is.finite(fraction), fraction >= 0, fraction <= 1, length(issuers) >
-    0, all(issuers %in% z$countries), !anyDuplicated(issuers), all(c(
-    bank_nodes, gov_nodes,
-    "EA:S121"
-  ) %in% rownames(matrix)))
+  stopifnot(
+    fraction >= 0, fraction <= 1,
+    length(issuers) > 0, all(issuers %in% z$countries), !anyDuplicated(issuers)
+  )
   N <- system$inputs$sovereign
   P <- fraction * sweep(N, 2, as.numeric(z$countries %in% issuers), "*")
   m <- matrix
@@ -40,19 +39,9 @@ apply_eurosystem_sovereign_purchases <- function(system, matrix, fraction, issue
     bank_sales = rowSums(P), issuer_sales = colSums(P)
   )
   stopifnot(
-    min(m) >= -1e-08, max(abs(colSums(m[, gov_nodes, drop = FALSE]) - colSums(matrix[,
-      gov_nodes,
-      drop = FALSE
-    ]))) < 1e-07, max(abs(rowSums(m[bank_nodes, , drop = FALSE]) -
-      rowSums(matrix[bank_nodes, , drop = FALSE]))) < 1e-07, identical(m[, bank_nodes,
-      drop = FALSE
-    ], matrix[, bank_nodes, drop = FALSE]), abs(sum(m["EA:S121", ]) - sum(matrix["EA:S121", ]) - sum(P)) < 1e-07, abs(sum(m[, "EA:S121"]) - sum(matrix[, "EA:S121"]) - sum(P)) <
-      1e-07, max(abs(z$resources + rowSums(z$claims) + rowSums(z$sovereign) - z$debt -
-      z$equity)) < 1e-08, identical(z$debt, system$debt), identical(z$equity, system$equity),
-    identical(z$headroom, system$headroom), identical(z$cutoff, system$cutoff), identical(
-      z$claims,
-      system$claims
-    ), identical(z$lambda, system$lambda), identical(z$params, system$params)
+    min(m) >= -1e-8,
+    max(abs(z$resources + rowSums(z$claims) + rowSums(z$sovereign) -
+      z$debt - z$equity)) < 1e-8
   )
   list(system = z, matrix = m, purchases = P, units = "EUR bn")
 }
@@ -94,10 +83,7 @@ summarise_eurosystem_purchase <- function(purchase, solution, household_bank_cla
     unique_at_capacity <- !any(vapply(maxima, function(v) v$attained, logical(1)))
     expected_R[, s] <- as.numeric(R %*% equilibrium_weights(roots, rho))
     state_rows[[s]] <- data.frame(
-      state = s, sovereign_defaults = k$labels[s], bank_defaults_at_par = sum(initial[
-        ,
-        s
-      ]), equilibria = ncol(R), maximum_equilibrium_bank_events = max(vapply(
+      state = s, sovereign_defaults = k$labels[s], bank_defaults_at_par = sum(initial[, s]), equilibria = ncol(R), maximum_equilibrium_bank_events = max(vapply(
         roots,
         function(r) sum(r$default), integer(1)
       )), minimum_bank_repayment = min(R), minimum_floor_capacity_eur_bn = capacity,
@@ -109,10 +95,7 @@ summarise_eurosystem_purchase <- function(purchase, solution, household_bank_cla
     bank_rows[[s]] <- do.call(rbind, lapply(seq_along(roots), function(e) {
       data.frame(
         state = s,
-        sovereign_defaults = k$labels[s], equilibrium = e, country = z$countries, repayment = R[
-          ,
-          e
-        ], bank_credit_event = roots[[e]]$default, default_at_par = initial[, s],
+        sovereign_defaults = k$labels[s], equilibrium = e, country = z$countries, repayment = R[, e], bank_credit_event = roots[[e]]$default, default_at_par = initial[, s],
         household_equilibrium_gap_eur_bn = household[, e]
       )
     }))

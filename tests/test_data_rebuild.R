@@ -19,8 +19,8 @@ for (file in files) {
     before <- before[order(before$country), ]
     after <- after[order(after$country), ]
   }
-  stopifnot(nrow(before) == nrow(after))
-  for (column in intersect(names(before), names(after))) {
+  stopifnot(nrow(before) == nrow(after), identical(names(before), names(after)))
+  for (column in names(before)) {
     a <- before[[column]]
     b <- after[[column]]
     if (is.numeric(a)) {

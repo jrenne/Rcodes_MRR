@@ -1,0 +1,11 @@
+"item","No sovereign default","Sovereign default: full bank repayment","Sovereign default: both banks default"
+"Safe assets",41,41,41
+"Sovereign bond receipts",20,10,10
+"Interbank receipts",50,50,41.7272727272727
+"Total assets before costs $A_i$",111,101,92.7272727272727
+"Debt to the other bank",50,50,50
+"Debt to nonbank creditors",50,50,50
+"Remaining pre-cost equity $A_i-D_i$",11,1,-7.27272727272728
+"Bank distress cost",0,0,9.27272727272727
+"Total debt payment $D_iR_i$",100,100,83.4545454545455
+"Repayment rate $R_i$",100,100,83.4545454545455

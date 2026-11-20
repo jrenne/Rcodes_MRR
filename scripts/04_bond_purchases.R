@@ -64,7 +64,7 @@ writeLines(
   c(
     "\\begin{tabularx}{\\textwidth}{@{}>{\\raggedright\\arraybackslash}Xrrrrr@{}}",
     "\\toprule",
-    r"(Purchased holdings & \shortstack{Purchase\\principal} & \shortstack{Default states\\under full\\interbank repayment} & \shortstack{Multiple\\states} & Equilibria & \shortstack{Floor\\capacity} \\)",
+    r"(Purchased holdings & \shortstack{Purchase\\principal} & \shortstack{Default states\\under full\\interbank repayment} & \shortstack{Multiple\\states} & Equilibria & \shortstack{Minimum\\guarantee\\funds} \\)",
     "\\midrule", paste0(rows, " \\\\"), "\\bottomrule", "\\end{tabularx}"
   ),
   "Figures/eurosystem_purchase_table.tex"

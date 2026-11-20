@@ -27,40 +27,9 @@ register$share_of_creditor_assets_pct <- 100 * as.vector(shares)
 dir.create("Figures", showWarnings = FALSE)
 write.csv(register, "Figures/bank_exposure_network_data.csv", row.names = FALSE)
 
-# Same positions, transposed for columns identifying creditor banking systems.
-amount <- function(x) formatC(x, format = "f", digits = 1, big.mark = ",")
-cell <- function(value, share) {
-  pct <- if (share > 0 && round(100 * share, 1) == 0) "$<0.1$" else sprintf("%.1f", 100 * share)
-  paste0(amount(value), " (", pct, "\\%)")
-}
-table_lines <- c(
-  "\\begin{tabular*}{\\textwidth}{@{\\extracolsep{\\fill}}lrrrr@{}}",
-  "\\toprule", " & Germany & France & Italy & Spain \\\\", "\\midrule",
-  "\\multicolumn{5}{@{}l}{\\textit{Sovereign bonds}} \\\\"
-)
-names_full <- c("Germany", "France", "Italy", "Spain")
-for (j in 1:8) {
-  if (j == 5L) {
-    table_lines <- c(
-      table_lines, "\\addlinespace",
-      "\\multicolumn{5}{@{}l}{\\textit{Claims on banking systems}} \\\\"
-    )
-  }
-  table_lines <- c(table_lines, paste0(
-    names_full[(j - 1L) %% 4L + 1L], " & ",
-    paste(vapply(1:4, function(i) cell(claims[i, j], shares[i, j]), character(1)),
-      collapse = " & "
-    ), " \\\\"
-  ))
-}
-table_lines <- c(
-  table_lines, "\\midrule", paste0(
-    "Total bank assets & ",
-    paste(amount(z$accounting$reported_assets), collapse = " & "), " \\\\"
-  ),
-  "\\bottomrule", "\\end{tabular*}"
-)
-writeLines(table_lines, "Figures/bank_exposure_table.tex")
+# Exposure table includes the Eurosystem; the network drawing retains four bank creditors.
+source("R/output/bank_exposure_table.R")
+write_bank_exposure_table(readRDS("outputs/equilibria.rds")$baseline)
 
 cols <- c(DEU = "#346A93", FRA = "#338461", ITA = "#B85448", ESP = "#CB942E")
 # Banks occupy the centre; their sovereigns are passive outer nodes.

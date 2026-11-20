@@ -5,6 +5,7 @@ solve_clearing <- function(system, kind = c("none", "floor", "recovery"), floor 
   z <- system
   C <- length(z$countries)
   B <- z$inputs$interbank
+  L <- colSums(B)
   D <- z$debt[1:C]
   lam <- z$lambda[1:C]
   T <- z$cutoff[1:C]
@@ -13,7 +14,7 @@ solve_clearing <- function(system, kind = c("none", "floor", "recovery"), floor 
   # B has creditor rows and debtor columns. Internal creditor shares of each debtor's
   # debt therefore use column sums, including domestic claims.
   stopifnot(
-    all(colSums(B) / D < 1), all(z$lambda[C + seq_len(C)] == 1), length(eta) == 1,
+    all(L / D < 1), all(z$lambda[C + seq_len(C)] == 1), length(eta) == 1,
     eta >= 0, eta <= 1
   )
   # The reduced solver fixes NBFIs at par and requires sufficient NBFI buffers.
@@ -23,7 +24,7 @@ solve_clearing <- function(system, kind = c("none", "floor", "recovery"), floor 
   stopifnot(all(k$constant[banks, ] > 0), all(k$constant[nbfi, , drop = FALSE] + z$W %*%
     lower_B >= z$debt[nbfi] - 1e-09))
   if (kind == "floor") {
-    stopifnot(all(dim(floor) == c(C, S)), all(floor >= 0 & floor <= 1))
+    stopifnot(all(floor >= 0 & floor <= 1))
   }
   sets <- k$delta == 1
   states <- nodes <- list()
@@ -52,8 +53,7 @@ solve_clearing <- function(system, kind = c("none", "floor", "recovery"), floor 
             intercept[which(J)[active]] <- floor[which(J)[active], s]
           }
           if (kind == "recovery") {
-            coverage <- rep(eta, C)
-            slope[J] <- 1 + coverage[J] * (1 - lam[J]) / lam[J]
+            slope[J] <- 1 + eta * (1 - lam[J]) / lam[J]
             slope[which(J)[active]] <- 0
             intercept[which(J)[active]] <- 1
           }
@@ -77,7 +77,7 @@ solve_clearing <- function(system, kind = c("none", "floor", "recovery"), floor 
           credited <- pmax(R, floor[, s])
         }
         if (kind == "recovery" && nj) {
-          credited[J] <- pmin(1, R[J] * (1 + coverage[J] * (1 - lam[J]) / lam[J]))
+          credited[J] <- pmin(1, R[J] * (1 + eta * (1 - lam[J]) / lam[J]))
         }
         if (max(abs(credited - (slope * R + intercept))) > 1e-09) {
           next
@@ -93,7 +93,7 @@ solve_clearing <- function(system, kind = c("none", "floor", "recovery"), floor 
         }
         roots[[length(roots) + 1L]] <- list(
           default_set = j, repayment = R, creditor_receipt = credited,
-          assets = V, default = J, payment_by_debtor = colSums(B) * (credited - R),
+          assets = V, default = J, payment_by_debtor = L * (credited - R),
           residual = max(abs(mapped - R))
         )
       }

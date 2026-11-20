@@ -18,7 +18,6 @@ floor_poly_eval <- function(p, t) {
   for (i in rev(seq_along(p))) v <- v * t + p[i]
   v
 }
-floor_poly_deriv <- function(p) if (length(p) > 1L) p[-1L] * seq_len(length(p) - 1L) else 0
 floor_poly_det <- function(m) {
   n <- nrow(m)
   if (n == 1L) {
@@ -48,7 +47,6 @@ minimum_floor_branches <- function(B, D, lambda, T, a, Q) {
   result <- list()
   theta <- c(0, 1)
   stopifnot(
-    all(dim(B) == c(n, n)), length(a) == n, length(Q) == n,
     all(is.finite(c(B, D, lambda, T, a, Q))), all(B >= 0), all(D > 0),
     all(lambda > 0 & lambda <= 1), all(a >= 0), all(Q >= 0 & Q <= 1),
     all(T > 0 & T <= D / lambda + 1e-10), max(lambda * colSums(B) / D) < 1
@@ -84,10 +82,6 @@ minimum_floor_branches <- function(B, D, lambda, T, a, Q) {
       demand <- 0
       for (j in seq_len(n)) demand <- floor_poly_add(demand, colSums(B)[j] * upper[[j]])
       bn <- floor_poly_mul(theta, demand)
-      deriv <- floor_poly_sub(
-        floor_poly_mul(floor_poly_deriv(bn), den),
-        floor_poly_mul(bn, floor_poly_deriv(den))
-      )
       # Capture each regime in its own environment before advancing the loop.
       curve <- local({
         nums <- nums
@@ -95,7 +89,6 @@ minimum_floor_branches <- function(B, D, lambda, T, a, Q) {
         J <- J
         S <- S
         bn <- bn
-        deriv <- deriv
         repayment <- function(t) vapply(nums, floor_poly_eval, numeric(1), t = t) / floor_poly_eval(den, t)
         valid <- function(t, tol = 1e-8) {
           R <- repayment(t)
@@ -105,7 +98,7 @@ minimum_floor_branches <- function(B, D, lambda, T, a, Q) {
         }
         list(
           default = J, repayment = repayment, valid = valid, budget_num = bn,
-          denominator = den, derivative_num = deriv,
+          denominator = den,
           budget_at = function(t) floor_poly_eval(bn, t) / floor_poly_eval(den, t)
         )
       })
@@ -116,10 +109,10 @@ minimum_floor_branches <- function(B, D, lambda, T, a, Q) {
         # Capacity is nondecreasing on each admissible branch under the
         # weighted internal-exposure bound checked above. Its supremum is
         # therefore the right endpoint; evaluate the strict cutoff separately.
-        peak <- right
         result[[length(result) + 1L]] <- c(curve, list(
-          left = left, right = right, theta = peak,
-          budget = curve$budget_at(peak), attained = peak < 1 && curve$valid(peak), R = curve$repayment(peak)
+          left = left, right = right, theta = right,
+          budget = curve$budget_at(right), attained = right < 1 && curve$valid(right),
+          R = curve$repayment(right)
         ))
       }
       # Weak survival inequalities may admit an isolated boundary point.

@@ -15,9 +15,8 @@ repayment_resources <- function(base) {
   C <- length(base$countries)
   delta <- binary_configurations(C)
   pi <- align_country_vector(base$params$pi_G, base$countries, "pi_G")
-  G <- t(matrix(vapply(seq_len(nrow(delta)), function(s) {
-    (1 - base$params$haircut_G * delta[s, ]) / (1 - base$params$haircut_G * pi)
-  }, numeric(C)), nrow = C))
+  G <- sweep(1 - base$params$haircut_G * delta, 2,
+    1 - base$params$haircut_G * pi, "/")
   L <- rbind(base$reference$private_loss_matrix, matrix(0, C, C))
   constant <- base$resources + base$sovereign %*% t(G) - L %*% t(delta)
   list(

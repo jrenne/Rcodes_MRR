@@ -1,0 +1,12 @@
+{
+  "reference_date": "2024-12-31",
+  "provider": "European Central Bank",
+  "source_title": "Consolidated balance sheet of the Eurosystem as at 31 December 2024",
+  "source_url": "https://www.ecb.europa.eu/press/annual-reports-financial-statements/annual/balance/html/ecb.eurosystembalancesheet2024~28f64426e5.en.html",
+  "source_item": "Total assets",
+  "source_unit": "EUR millions",
+  "total_assets_eur_million": 6420536,
+  "total_assets_eur_bn": 6420.536,
+  "retrieved_on": "2026-11-19",
+  "use": "Presentation denominator only; does not modify calibration or exposures."
+}

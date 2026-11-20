@@ -9,11 +9,11 @@ stopifnot(
   identical(zero$solution$roots, b$result$roots),
   identical(zero$solution$by_bank, b$result$by_bank)
 )
+before <- repayment_resources(z)
 for (name in names(x$cases)) {
   case <- x$cases[[name]]
   q <- case$purchase
   k <- repayment_resources(q$system)
-  before <- repayment_resources(z)
   direct_gain <- q$system$resources[seq_len(C)] - z$resources[seq_len(C)] -
     q$purchases %*% t(k$G)
   stopifnot(

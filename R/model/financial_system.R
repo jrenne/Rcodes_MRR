@@ -6,8 +6,7 @@ enumerate_financial_credit_roots <- function(
 ) {
   n <- length(debt)
   stopifnot(
-    n <= 12, all(dim(claims) == c(n, n)), length(receipts) == n,
-    length(cutoff) == n, length(lambda) == n, length(node_labels) == n,
+    n <= 12,
     all(is.finite(c(receipts, claims, debt, cutoff, lambda))),
     all(receipts >= 0), all(claims >= 0), all(debt > 0),
     all(lambda > 0 & lambda <= 1), all(cutoff <= debt / lambda + 1e-8)

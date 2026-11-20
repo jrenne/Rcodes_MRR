@@ -36,7 +36,7 @@ full <- build_bank_nbfi_system(z$reference, m, z$public_buffers)
 grouped <- build_bank_nbfi_system(z$reference, view$matrix, z$public_buffers)
 stopifnot(identical(full, grouped))
 # Symmetric institutions reproduce the national block map without own claims.
-for (counts in list(rep(2L, 8), rep(3L, 8))) {
+for (counts in list(rep(2L, 8), rep(3L, 8), c(2L, 3L, 4L, 5L, 3L, 2L, 4L, 3L))) {
   micro <- disaggregate_symmetric_blocks(z, counts)
   k <- repayment_resources(z)
   for (s in 1:16) {

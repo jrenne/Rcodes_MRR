@@ -72,22 +72,40 @@ write.csv(do.call(rbind, equilibrium_losses), "outputs/household_and_creditor_lo
 rowend <- paste0("\\", "\\")
 
 rate <- function(x) ifelse(abs(x - 1) < 1e-10, "100\\%", sprintf("%.1f\\%%", 100 * x))
-range <- ifelse(abs(dispersion$aggregate_recovery_max - dispersion$aggregate_recovery_min) < 1e-12,
-  rate(dispersion$aggregate_recovery_min), paste0(rate(dispersion$aggregate_recovery_min), "--", rate(dispersion$aggregate_recovery_max))
+recovery_lines <- c(
+  "\\begin{tabular*}{\\textwidth}{@{\\extracolsep{\\fill}}lrlrl@{}}", "\\toprule",
+  paste(r"(\shortstack[l]{Sovereign\\defaults} & Eq. & \shortstack[l]{Bank\\defaults} & Recovery & \shortstack[l]{Lowest bank\\recovery})", rowend),
+  "\\midrule"
 )
-table_tex(
-  "Figures/bank_recovery_dispersion_table.tex",
-  "Sovereign defaults & Equilibria & Aggregate recovery range & Lowest bank recovery",
-  sprintf(
-    "%s & %d & %s & %s", k$labels, dispersion$num_equilibria, range,
-    ifelse(abs(dispersion$aggregate_recovery_min - 1) < 1e-10 & abs(dispersion$aggregate_recovery_max - 1) < 1e-10,
-      "$-$", paste0(
-        sprintf("%s/%s", dispersion$minimum_recovery_country, rate(dispersion$minimum_recovery_rate)),
-        ifelse(dispersion$num_equilibria > 1, paste0(" (", rate(dispersion$minimum_country_preferred_recovery), ")"), "")
-      )
+recovery_details <- list()
+for (s in seq_len(S)) {
+  roots <- r$roots[[s]]
+  aggregate <- vapply(roots, function(q) sum(D * q$repayment) / sum(D), numeric(1))
+  ordering <- order(aggregate, decreasing = TRUE)
+  stopifnot(abs(min(aggregate) - dispersion$aggregate_recovery_min[s]) < 1e-12,
+    abs(max(aggregate) - dispersion$aggregate_recovery_max[s]) < 1e-12)
+  if (s > 1L) recovery_lines <- c(recovery_lines, "\\midrule")
+  for (e in seq_along(ordering)) {
+    q <- roots[[ordering[e]]]
+    defaults <- z$countries[q$default]
+    bank_set <- if (length(defaults)) paste(defaults, collapse = "+") else "None"
+    lowest <- which.min(q$repayment)
+    low <- if (q$repayment[lowest] >= 1 - 1e-10) "$-$" else paste0(z$countries[lowest], "/", rate(q$repayment[lowest]))
+    state_cell <- if (e != 1L) "" else if (length(roots) == 1L) k$labels[s] else sprintf("\\multirow{%d}{*}{%s}", length(roots), k$labels[s])
+    count_cell <- if (e != 1L) "" else if (length(roots) == 1L) as.character(length(roots)) else sprintf("\\multirow{%d}{*}{%d}", length(roots), length(roots))
+    recovery_lines <- c(recovery_lines, paste(
+      paste(state_cell, count_cell, bank_set, rate(aggregate[ordering[e]]), low, sep = " & "), rowend
+    ))
+    recovery_details[[length(recovery_details) + 1L]] <- data.frame(
+      state = s, sovereign_defaults = k$labels[s], equilibrium_rank = e,
+      saved_equilibrium = ordering[e], bank_defaults = bank_set,
+      debt_weighted_recovery = aggregate[ordering[e]],
+      lowest_bank = z$countries[lowest], lowest_bank_recovery = q$repayment[lowest]
     )
-  ), "lrrl"
-)
+  }
+}
+writeLines(c(recovery_lines, "\\bottomrule", "\\end{tabular*}"), "Figures/bank_recovery_dispersion_table.tex")
+write.csv(do.call(rbind, recovery_details), "Figures/bank_recovery_dispersion_table_data.csv", row.names = FALSE)
 money <- function(pct, amount) ifelse(abs(amount) < 1e-10, "$-$", sprintf("%.2f\\%% (\\euro{}%.0f bn)", pct, amount))
 table_tex(
   "Figures/ex_post_compensation_table.tex", "Sovereign defaults & Equilibria & Banks only & All creditors",
@@ -97,24 +115,7 @@ table_tex(
     money(compensation$all_creditors_max_pct_bank_debt, compensation$all_creditors_max_eur_bn)
   ), "lrrr"
 )
-fmt_hh <- function(v, pct) {
-  ifelse(v < 1e-10, "$-$", paste0(
-    ifelse(v < 1, "$<1$", sprintf("%.0f", v)),
-    " (", ifelse(pct > 0 & pct < .005, "$<0.01$", sprintf("%.2f", pct)), "\\%)"
-  ))
-}
-table_tex(
-  "Figures/household_consumption_changes_table.tex", paste(c("Sovereign defaults", "Equilibria", z$countries, "Total"), collapse = " & "),
-  vapply(1:S, function(s) {
-    paste(c(
-      k$labels[s], household_results$num_equilibria[s],
-      fmt_hh(
-        as.numeric(household_results[s, c(paste0(z$countries, "_max_shortfall_eur_bn"), "total_max_shortfall_eur_bn")]),
-        as.numeric(household_results[s, c(paste0(z$countries, "_max_shortfall_pct_2024_consumption"), "total_max_shortfall_pct_2024_consumption")])
-      )
-    ), collapse = " & ")
-  }, character(1)), "lrrrrrr"
-)
+source("R/output/nonbank_creditor_losses.R", local = new.env())
 # Section 6: common recovery backstop over the configured coverage grid.
 policies <- list()
 gridrows <- list()
@@ -136,10 +137,10 @@ rob <- b$robustness
 select_names <- c("ISA", "half_ISA", "baseline", "OCR_q25", "OCR_q75", "minimum_requirements", "sovereign_recovery_high", "sovereign_recovery_low", "nbfi_reduced")
 rob <- rob[match(select_names, rob$name), ]
 labels <- c(
-  sprintf("ISA headroom, $\\lambda=%s$", sub("^0", "", sprintf("%.2f", settings$bank_lambda))),
+  sprintf("ISA headroom, $\\lambda=%s$", sprintf("%.2f", settings$bank_lambda)),
   "Half ISA headroom, full equity", "Public median OCR (baseline)",
   "Lower-quartile OCR", "Upper-quartile OCR",
-  sprintf("Minimum requirements, $\\lambda=%s$", sub("^0", "", sprintf("%.3f", settings$sensitivity$minimum_requirement_lambda))),
+  sprintf("Minimum requirements, $\\lambda=%s$", sprintf("%.3f", settings$sensitivity$minimum_requirement_lambda)),
   sprintf("Sovereign recovery %.0f\\%%", 100 * settings$sensitivity$sovereign_recoveries[["high"]]),
   sprintf("Sovereign recovery %.0f\\%%", 100 * settings$sensitivity$sovereign_recoveries[["low"]]),
   sprintf("NBFI availability %.0f\\%%", 100 * settings$sensitivity$nbfi_buffer_fraction)
@@ -153,31 +154,9 @@ table_tex(
   "Figures/OCR_headroom_table.tex", "Country & Accounting equity & Clearing debt & OCR headroom & ISA headroom",
   sprintf("%s & %.1f & %.1f & %.1f & %.1f", head$country, head$accounting_equity, D, head$OCR, head$ISA), "lrrrr"
 )
-# A compact, fully reconciled French-only balance-sheet illustration.
-s <- which(k$labels == "FRA")
-boxes <- c()
-for (e in seq_along(r$roots[[s]])) {
-  q <- r$roots[[s]][[e]]
-  boxes <- c(boxes, sprintf("\\multicolumn{4}{l}{\\textbf{Equilibrium %s}} %s", LETTERS[e], rowend))
-  cells <- vapply(1:4, function(i) {
-    paste0(
-      "\\fcolorbox{black}{", if (q$default[i]) "black!10" else "white",
-      "}{\\parbox[t]{.212\\textwidth}{\\centering\\scriptsize\\textbf{", z$countries[i], "}\\par ",
-      if (q$default[i]) "Credit event" else "Full repayment", "\\par ", rate(q$repayment[i]),
-      "\\par\\smallskip\\begin{tabular}{@{}lr@{}}",
-      paste(sprintf(
-        "%s & %.1f", c("Estate", "Debt", "Equity", "Headroom", "B--B claims", "B--B loss"),
-        c(
-          q$assets[i], D[i], z$equity[i], z$headroom[i], sum(z$inputs$interbank[i, ]),
-          as.numeric(z$inputs$interbank[i, , drop = FALSE] %*% (1 - q$repayment))
-        )
-      ), collapse = paste0(rowend, "\n")),
-      "\\end{tabular}}}"
-    )
-  }, character(1))
-  boxes <- c(boxes, paste(paste(cells, collapse = " & "), rowend), "\\noalign{\\vskip 8pt}")
-}
-writeLines(c("\\begin{tabular*}{\\textwidth}{@{\\extracolsep{\\fill}}llll@{}}", boxes, "\\end{tabular*}"), "Figures/french_default_balance_sheets.tex")
+# Reconciled balance-sheet illustrations for two and three equilibria.
+source("R/output/balance_sheets.R")
+write_balance_sheet_figures(z, r)
 pi <- align_country_vector(z$params$pi_G, z$countries, "pi_G")
 prob <- apply(k$delta, 1, function(d) prod(ifelse(d == 1, pi, 1 - pi)))
 expected <- rep(0, C)

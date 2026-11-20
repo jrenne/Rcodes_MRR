@@ -64,7 +64,7 @@ rows <- vapply(seq_len(nrow(ans)), function(j) {
 writeLines(
   c(
     "\\begin{tabular*}{\\textwidth}{@{\\extracolsep{\\fill}}lrrrr@{}}", "\\toprule",
-    sprintf("Dependence & \\shortstack{Crisis probability\\\\(\\%%)} & \\shortstack{B--B loss\\\\$\\eta=0$ (bp)} & \\shortstack{B--B loss\\\\$\\eta=%s$ (bp)} & \\shortstack{Payment\\\\$\\eta=%s$ (\\%% debt)} \\\\", sub("^0", "", sprintf("%.2f", settings$dependence_coverage)), sub("^0", "", sprintf("%.2f", settings$dependence_coverage))),
+    sprintf("Dependence & \\shortstack{Crisis probability\\\\(\\%%)} & \\shortstack{B--B loss\\\\$\\eta=0$ (bp)} & \\shortstack{B--B loss\\\\$\\eta=%s$ (bp)} & \\shortstack{Payment\\\\$\\eta=%s$ (\\%% debt)} \\\\", sprintf("%.2f", settings$dependence_coverage), sprintf("%.2f", settings$dependence_coverage)),
     "\\midrule", rows, "\\bottomrule", "\\end{tabular*}"
   ),
   "Figures/sovereign_dependence_sensitivity.tex"

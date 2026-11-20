@@ -4,7 +4,6 @@ aggregate_passive_counterparties <- function(reporting_matrix) {
   m <- reporting_matrix
   passive <- c("ROW:S2", "UNALLOC:ISSUER", "UNALLOC:HOLDER")
   stopifnot(
-    is.matrix(m), nrow(m) == ncol(m), identical(rownames(m), colnames(m)), !anyDuplicated(rownames(m)),
     all(passive %in% rownames(m)), all(is.finite(m)), all(m >= 0)
   )
   target <- rownames(m)

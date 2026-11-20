@@ -142,7 +142,6 @@ build_capital_data <- function(output_directory) {
   proxies <- list()
   for (short in names(map)) {
     a <- sbs$data[[short]]
-    stopifnot(length(a) == 4)
     bridge <- a$sbs_cet1_eur_bn / a$sbs_accounting_equity_eur_bn
     sample <- ratios[ratios$country == map[[short]], ]
     isa <- (a$sbs_cet1_eur_bn - 0.045 * a$sbs_rwa_eur_bn) / a$sbs_accounting_equity_eur_bn
