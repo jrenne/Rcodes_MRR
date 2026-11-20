@@ -14,7 +14,7 @@ install.packages("jsonlite")
 Rscript main.R
 ```
 
-All inputs are included; no download is needed. The run writes numerical results to `outputs/` and tables and figures to `Figures/`. A full run from the supplied inputs took about 22 seconds in the validation environment; reconstruction, tests and PDF compilation are separate.
+All inputs are included; no download is needed. The run writes numerical results to `outputs/` and tables and figures to `Figures/`. A full run from the supplied inputs took about 20 seconds in the validation environment; reconstruction, tests and PDF compilation are separate.
 
 ## Settings and files
 
