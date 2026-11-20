@@ -38,23 +38,23 @@ The calculation scripts follow the paper:
 
 Matrix **rows are creditors and columns are debtors**. Model amounts are **EUR billions**.
 
-## Check the replication
+## Validation
 
-The paper's calibration gives 25 banking equilibria across 16 sovereign states, with multiplicity in eight states. The proportional repayment floor requires about EUR 60.6 billion of common capacity and pays nothing in equilibrium. The common recovery backstop removes multiplicity at 40% on the five-percentage-point grid and at 36% on the one-percentage-point grid; these grid results do not establish a continuous minimum.
+The validation suite checks data reconstruction, accounting consistency and the model's numerical results against the reference results supplied with the replication package. It uses the default parameters in `main.R`.
 
-For the validation tests, also install:
+Install the additional packages required for data reconstruction:
 
 ```r
 install.packages(c("dplyr", "tidyr", "quadprog", "readxl"))
 ```
 
-After running `main.R`, run:
+After running `main.R`, execute:
 
 ```sh
 Rscript scripts/run_tests.R
 ```
 
-The tests check accounting identities, data reconstruction, clearing calculations, repayment-floor thresholds and agreement with the paper's numerical results. They use the paper's default parameter values and include a reconstruction of the database. Test logs are in `outputs/tests/`.
+A summary and individual test logs are saved in `outputs/tests/`.
 
 ## Data
 
